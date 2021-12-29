@@ -165,7 +165,7 @@ const Quizbuilder = () => {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: false });
                 setQArr(values);
                 return
-            }else{
+            } else {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: true });
 
             }
@@ -233,9 +233,6 @@ const Quizbuilder = () => {
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start">Q :</InputAdornment>
                                     }}
-
-                                // value={value}
-                                // onChange={handleChange}
                                 />
 
                                 <Box sx={{ display: "flex", marginTop: 5 }}>
@@ -284,16 +281,16 @@ const Quizbuilder = () => {
                                             sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
 
                                             <FormControlLabel value="A" control={<Radio
-                                                sx={{ color: `${q.id === inputError.id? inputError.answer ? 'red' : '':''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
                                                 label="A" />
 
 
                                             <FormControlLabel value="B" control={<Radio
-                                                sx={{ color: `${q.id === inputError.id? inputError.answer ? 'red' : '':''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
                                                 label="B" />
 
                                             <FormControlLabel value="C" control={<Radio
-                                                sx={{ color: `${q.id === inputError.id? inputError.answer ? 'red' : '':''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
                                                 label="C" />
 
                                         </RadioGroup>
