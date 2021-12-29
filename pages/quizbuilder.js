@@ -1,3 +1,4 @@
+import React from 'react'
 import {
     Container, CssBaseline, Box, TextField, InputAdornment,
     Radio, FormControl, FormLabel, FormControlLabel, RadioGroup, Stack,
@@ -8,7 +9,6 @@ import {
 
 import { Add } from '@mui/icons-material';
 
-import React from 'react'
 
 const Quizbuilder = () => {
 
@@ -18,33 +18,42 @@ const Quizbuilder = () => {
         setAlignment(newAlignment);
     };
 
+
+
     return (
         <>
             <CssBaseline />
             <Container maxWidth="md">
 
-                <Box sx={{ m: 2 }}>
+                <Box sx={{ m: 2, }}>
+                    {/* Quiz Array*/}
+
                     <ToggleButtonGroup
                         value={alignment}
+
                         exclusive
                         onChange={handleAlignment}
                         aria-label="text alignment"
+                        size="large"
                     >
                         <ToggleButton value="left" aria-label="left aligned">
-                            <h3>Q1</h3>
+                            <h3 style={{ margin: 0 }}>Q1</h3>
                         </ToggleButton>yarn add @mui/icons-material
                         <ToggleButton value="center" aria-label="centered">
-                            <h3>Q1</h3>
+                            <h3 style={{ margin: 0 }}>Q1</h3>
                         </ToggleButton>
                         <ToggleButton value="right" aria-label="right aligned">
-                            <h3>Q1</h3>
+                            <h3 style={{ margin: 0 }}>Q1</h3>
                         </ToggleButton>
                         <ToggleButton value="justify" aria-label="justified" disabled>
-                            <h3>Q1</h3>
+                            <h3 style={{ margin: 0 }}>Q1</h3>
                         </ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
                 <Box sx={{ m: 2 }} >
+
+                    {/* Question Input */}
+
                     <TextField
                         id="outlined-multiline-flexible"
                         placeholder="Enter your question"
@@ -62,14 +71,13 @@ const Quizbuilder = () => {
                     <Box sx={{ display: "flex", marginTop: 5 }}>
 
 
-
                         {/* Multiple choice */}
+
                         <Stack spacing={1} sx={{ minWidth: "80%" }}>
 
                             <TextField
                                 id="outlined-multiline-flexible"
                                 placeholder="Enter choose A "
-                                fullWidth
 
                             />
                             <TextField
@@ -81,51 +89,38 @@ const Quizbuilder = () => {
                                 id="outlined"
                                 placeholder="Enter choose C "
                             />
-
                         </Stack>
 
+
+
+                        {/* Answer */}
                         <FormControl component="fieldset">
-                            {/* <FormLabel component="legend">Answer</FormLabel> */}
                             <RadioGroup
                                 aria-label="select correct answer"
                                 // defaultValue="female"
                                 name="answer"
-                                sx={{
-                                    display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2,
+                                sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
 
-
-
-
-                                }}
-
-                            >
                                 <FormControlLabel value="A" control={<Radio
-                                    sx={{
-                                        '&.Mui-checked': {
-                                            color: "green",
-                                        },
-                                    }}
-                                />} label="A" />
+                                    sx={{ '&.Mui-checked': { color: "green" }, }} />}
+                                    label="A" />
+
+
                                 <FormControlLabel value="B" control={<Radio
-                                    sx={{
-                                        '&.Mui-checked': {
-                                            color: "green",
-                                        },
-                                    }}
+                                    sx={{ '&.Mui-checked': { color: "green" }, }} />}
+                                    label="B" />
 
-
-                                />} label="B" />
                                 <FormControlLabel value="C" control={<Radio
-                                    sx={{
-                                        '&.Mui-checked': {
-                                            color: "green",
-                                        },
-                                    }}
-                                />} label="C" />
+                                    sx={{ '&.Mui-checked': { color: "green" }, }} />}
+                                    label="C" />
+
                             </RadioGroup>
                         </FormControl>
                     </Box>
 
+
+
+                    {/* Action buttons for Add & Finish */}
 
                     <Stack sx={{ marginTop: 6 }} direction="row" spacing={4} justifyContent="space-between" >
                         <Fab color="primary" aria-label="add" onClick={() => console.log("Add")} >
