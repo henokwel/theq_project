@@ -45,8 +45,6 @@ const Quizbuilder = () => {
         // change to Switch
 
         if (target.name === "q_" && target.value !== " ") {
-            console.log(target.name);
-
             values[index].q = target.value;
         } else if (target.name === "altA" && target.value !== " ") {
             values[index].altA = target.value;
@@ -67,7 +65,6 @@ const Quizbuilder = () => {
         setQArr(values);
     };
 
-
     const handleAddFields = () => {
         const values = [...qArr];
 
@@ -77,10 +74,6 @@ const Quizbuilder = () => {
         // A better way to handle nested Logic
         // => https://www.freecodecamp.org/news/so-youre-in-if-else-hell-here-s-how-to-get-out-of-it-fc6407fec0e/
 
-        // check if the prev has a Q and >=1 answer
-        // else display error In Q or Answers
-        // Trim() before save and create a new Q
-
         // start with finding the last Q in the array
 
         let lastQ =
@@ -88,38 +81,6 @@ const Quizbuilder = () => {
                 ? values[0]
                 : values[values.length - 1];
 
-        // check for Q and Answers are not empty
-
-        // console.error("No Q give");
-        // =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-        // if (
-        //   lastQ.q !== "" &&
-        //   lastQ.altA_q !== "" &&
-        //   lastQ.altB_q !== "" &&
-        //   lastQ.altC_q !== ""
-        // ) {
-        //   console.log("Q here");
-
-        // setInputError({ id: lastQ.id, q: });
-        // check for  >=1 Answers are selected
-
-        // if (lastQ.alt_A || lastQ.alt_B || lastQ.alt_C) {
-        //   values.push({
-        //     id: uniqid(),
-        //     q: "",
-        //     alt_A: false,
-        //     alt_B: false,
-        //     alt_C: false,
-        //     altA_q: "",
-        //     altB_q: "",
-        //     altC_q: "",
-        //   });
-        //   setQArr(values);
-        // }
-
-        // console.error("No Alt give");
-        // }
-        // =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
         // Q Check
         if (lastQ.q === "") {
@@ -133,21 +94,8 @@ const Quizbuilder = () => {
             console.error("NO Alts given");
             // console.log("Error ALt");
             setInputError({ id: lastQ.id, q: false, alt: true, answer: false });
-
         }
-        // else if (lastQ.altA_q === "") {
-        //   console.error("NO Alts given");
-        //   console.log("Error ALt");
-        //   return;
-        // } else if (lastQ.altB_q === "") {
-        //   console.error("NO Alts given");
-        //   console.log("Error ALt");
-        //   return;
-        // } else if (lastQ.altC_q === "") {
-        //   console.error("NO Alts given");
-        //   console.log("Error ALt");
-        //   return;
-        // }
+
         else {
             console.log("Last Else");
 
@@ -155,28 +103,22 @@ const Quizbuilder = () => {
                 values.push({
                     id: uniqid(),
                     q: "",
-                    alt_A: false,
-                    alt_B: false,
-                    alt_C: false,
-                    altA_q: "",
-                    altB_q: "",
-                    altC_q: "",
+                    answer: null,
+                    altA: "",
+                    altB: "",
+                    altC: "",
                 });
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: false });
                 setQArr(values);
                 return
             } else {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: true });
-
             }
-
-
-
         }
     };
 
 
-
+    console.log(qArr);
 
     return (
         <>
@@ -208,7 +150,6 @@ const Quizbuilder = () => {
                         </ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-
 
 
                 {
@@ -302,8 +243,6 @@ const Quizbuilder = () => {
                         )
                     })
                 }
-
-
 
 
 
