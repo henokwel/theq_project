@@ -7,7 +7,7 @@ import {
 
 } from '@mui/material'
 
-import { Add } from '@mui/icons-material';
+import { Add, Remove } from '@mui/icons-material';
 const uniqid = require("uniqid");
 
 
@@ -118,6 +118,13 @@ const Quizbuilder = () => {
     };
 
 
+    const handleRemoveFields = (index) => {
+        const values = [...qArr];
+        values.splice(index, 1);
+        setQArr(values);
+    };
+
+
     // console.log(qArr);
 
     return (
@@ -160,21 +167,26 @@ const Quizbuilder = () => {
                             <Box sx={{ m: 2 }} key={`${q}~${index}`} >
 
                                 {/* Question Input */}
+                                <div style={{display:"flex"}}>
+                                    <TextField
+                                        id="outlined-multiline-flexible"
+                                        name="q_"
+                                        value={q.q}
+                                        onChange={(e) => handleInputChange(index, e)}
+                                        placeholder="Enter your question"
+                                        multiline
+                                        fullWidth
+                                        error={q.id === inputError.id ? inputError.q : false}
+                                        maxRows={4}
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">Q :</InputAdornment>
+                                        }}
+                                    />
+                                    {/* <Fab color="secondary" aria-label="add" onClick={() => handleRemoveFields(index)} >
+                                        <Remove />
+                                    </Fab> */}
+                                </div>
 
-                                <TextField
-                                    id="outlined-multiline-flexible"
-                                    name="q_"
-                                    value={q.q}
-                                    onChange={(e) => handleInputChange(index, e)}
-                                    placeholder="Enter your question"
-                                    multiline
-                                    fullWidth
-                                    error={q.id === inputError.id ? inputError.q : false}
-                                    maxRows={4}
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">Q :</InputAdornment>
-                                    }}
-                                />
 
                                 <Box sx={{ display: "flex", marginTop: 5 }}>
 
