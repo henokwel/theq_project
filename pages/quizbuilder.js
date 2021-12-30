@@ -118,7 +118,7 @@ const Quizbuilder = () => {
     };
 
 
-    console.log(qArr);
+    // console.log(qArr);
 
     return (
         <>
@@ -169,7 +169,7 @@ const Quizbuilder = () => {
                                     placeholder="Enter your question"
                                     multiline
                                     fullWidth
-                                    error={inputError.q}
+                                    error={q.id === inputError.id ? inputError.q : false}
                                     maxRows={4}
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start">Q :</InputAdornment>
@@ -187,7 +187,7 @@ const Quizbuilder = () => {
                                             id="outlined-multiline-flexible"
                                             placeholder="Enter choose A"
                                             name="altA"
-                                            error={inputError.alt}
+                                            error={q.id === inputError.id ? inputError.alt : false}
                                             value={q.altA}
                                             onChange={e => handleInputChange(index, e)}
                                         />
@@ -195,7 +195,7 @@ const Quizbuilder = () => {
                                             id="outlined"
                                             placeholder="Enter choose B "
                                             name="altB"
-                                            error={inputError.alt}
+                                            error={q.id === inputError.id ? inputError.alt : false}
                                             value={q.altB}
                                             onChange={e => handleInputChange(index, e)}
                                         />
@@ -204,7 +204,7 @@ const Quizbuilder = () => {
                                             id="outlined"
                                             placeholder="Enter choose C "
                                             name="altC"
-                                            error={inputError.alt}
+                                            error={q.id === inputError.id ? inputError.alt : false}
                                             value={q.altC}
                                             onChange={e => handleInputChange(index, e)}
                                         />
