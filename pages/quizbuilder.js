@@ -170,7 +170,7 @@ const Quizbuilder = () => {
 
                 {
                     qArr.map((q, index) => {
-
+                        console.log(index);
                         return (
 
                             <Box sx={{ m: 2 }} key={`${q}~${index}`} >
@@ -196,7 +196,7 @@ const Quizbuilder = () => {
                                     {/* <ToggleButton sx={bgcolor} value="left" aria-label="left aligned">
                                         <h3 style={{ margin: 0}}>X</h3>
                                     </ToggleButton> */}
-                                    <Fab sx={{bgcolor:"#f77"}} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
+                                    <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
                                         <Delete />
                                     </Fab>
                                 </div>
