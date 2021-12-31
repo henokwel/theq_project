@@ -14,3 +14,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+.MuiFab-extended{
+  border-radius: 5px;
+  height: auto;
+  box-shadow: none;
+  margin-left: 5px;
+}

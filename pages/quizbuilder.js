@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import {
     Container, CssBaseline, Box, TextField, InputAdornment,
-    Radio, FormControl, FormLabel, FormControlLabel, RadioGroup, Stack,
-    useMediaQuery, useTheme, Fab,
-    ToggleButton, ToggleButtonGroup, Button
+    Radio, FormControl, FormControlLabel, RadioGroup, Stack,
+    Fab,
+    ToggleButton, ToggleButtonGroup
 
 } from '@mui/material'
 
-import { Add, Remove } from '@mui/icons-material';
+import { Add, Delete } from '@mui/icons-material';
+
 const uniqid = require("uniqid");
 
 
@@ -81,14 +82,10 @@ const Quizbuilder = () => {
                 ? values[0]
                 : values[values.length - 1];
 
-
         // Q Check
         if (lastQ.q === "") {
             console.error("No Q give");
-
-
             setInputError({ id: lastQ.id, q: true, alt: false, answer: false });
-
             // check for  alternative, all must be given
         } else if (!lastQ.altA || !lastQ.altB || !lastQ.altC) {
             console.error("NO Alts given");
@@ -110,12 +107,24 @@ const Quizbuilder = () => {
                 });
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: false });
                 setQArr(values);
-                return
+                // return
             } else {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: true });
             }
         }
+        console.log(qArr);
+
     };
+
+
+
+    const handelFinish = () => {
+
+        // Make sure the last Q in array isn't empty. 
+        // If it's remove it!
+
+
+    }
 
 
     const handleRemoveFields = (index) => {
@@ -167,7 +176,7 @@ const Quizbuilder = () => {
                             <Box sx={{ m: 2 }} key={`${q}~${index}`} >
 
                                 {/* Question Input */}
-                                <div style={{display:"flex"}}>
+                                <div style={{ display: "flex" }}>
                                     <TextField
                                         id="outlined-multiline-flexible"
                                         name="q_"
@@ -182,9 +191,14 @@ const Quizbuilder = () => {
                                             startAdornment: <InputAdornment position="start">Q :</InputAdornment>
                                         }}
                                     />
-                                    {/* <Fab color="secondary" aria-label="add" onClick={() => handleRemoveFields(index)} >
-                                        <Remove />
-                                    </Fab> */}
+
+
+                                    {/* <ToggleButton sx={bgcolor} value="left" aria-label="left aligned">
+                                        <h3 style={{ margin: 0}}>X</h3>
+                                    </ToggleButton> */}
+                                    <Fab sx={{bgcolor:"#f77"}} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
+                                        <Delete />
+                                    </Fab>
                                 </div>
 
 
