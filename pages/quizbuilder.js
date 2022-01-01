@@ -204,7 +204,7 @@ const Quizbuilder = () => {
                         exclusive
                         onChange={handleAlignment}
                         aria-label="text alignment"
-                        size="large"
+                        size="large" 
                     >
                         <ToggleButton value="left" aria-label="left aligned">
                             <h3 style={{ margin: 0 }}>Q1</h3>
@@ -236,18 +236,17 @@ const Quizbuilder = () => {
                         aria-describedby="alert-dialog-description"
                     >
                         <DialogTitle id="alert-dialog-title">
-                            {"Use Google's location service?"}
+                            {" If you leave now, your quiz will not be saved!"}
                         </DialogTitle>
-                        <DialogContent>
+                        {/* <DialogContent>
                             <DialogContentText id="alert-dialog-description">
-                                Let Google help apps determine location. This means sending anonymous
-                                location data to Google, even when no apps are running.
+                                If you leave now, your quiz will not be saved!
                             </DialogContentText>
-                        </DialogContent>
+                        </DialogContent> */}
                         <DialogActions>
-                            <Button onClick={handleClose}>Disagree</Button>
+                            <Button onClick={handleClose}>Stay</Button>
                             <Button onClick={handleClose} autoFocus>
-                                Agree
+                                Leave
                             </Button>
                         </DialogActions>
                     </Dialog>

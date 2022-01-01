@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -9,29 +9,21 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import ListItemButton from '@mui/material/ListItemButton';
 
-import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
+import PeopleIcon from '@mui/icons-material/Layers';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import NextLink from 'next/link';
 import LinearProgressWithLabel from '../Components/ProgressWithLabel';
 import { Card, CardActionArea, CardContent } from '@mui/material';
+import { QuizStateContext } from '../src/context';
 
 
 
@@ -86,6 +78,9 @@ const mdTheme = createTheme();
 
 function Dashboard() {
     const [open, setOpen] = React.useState(false);
+
+    const _quizState = useContext(QuizStateContext)
+
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -204,26 +199,33 @@ function Dashboard() {
                             elevation={0}
                         >
 
-                            <Card sx={{ width: 250, m: 2 }}>
-                                <CardActionArea sx={{ height: "100%" }} >
-                                    <CardContent>
-                                        <Typography gutterBottom variant="h4" component="div">
-                                            Quiz Title
-                                        </Typography>
-                                        <Typography component="p" variant="p" sx={{ mb: 8 }} >
-                                            Description of the quiz, with few words
-                                        </Typography>
+                            {
+                                _quizState.map((item, index) => {
 
-                                        <Typography color="text.secondary"  >
-                                            End: in 20 Days
-                                        </Typography>
-                                        <Paper sx={{ p: 1, paddingLeft: 0 }} elevation={0}>
-                                            <LinearProgressWithLabel value={20} />
-                                        </Paper>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                                    return (
+                                        <Card key={index} sx={{ width: 250, m: 2 }}>
+                                            <CardActionArea sx={{ height: "100%" }} >
+                                                <CardContent>
+                                                    <Typography gutterBottom variant="h4" component="div">
+                                                        Quiz Title
+                                                    </Typography>
+                                                    <Typography component="p" variant="p" sx={{ mb: 8 }} >
+                                                        Description of the quiz, with few words
+                                                    </Typography>
 
+                                                    <Typography color="text.secondary"  >
+                                                        End: in 20 Days
+                                                    </Typography>
+                                                    <Paper sx={{ p: 1, paddingLeft: 0 }} elevation={0}>
+                                                        <LinearProgressWithLabel value={20} />
+                                                    </Paper>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Card>
+
+                                    )
+                                })
+                            }
 
                         </Paper>
 

@@ -5,7 +5,25 @@ export const QuizStateContext = createContext();
 export const QuizUpdateContext = createContext();
 
 export function AppWrapper({ children }) {
-    const [state, dispatch] = useReducer(appReducer, [])
+    const [state, dispatch] = useReducer(appReducer, [
+        {
+            id: "id__Me",
+            q: "What's your name ?",
+            answer: "A",
+            altA: "Luffy",
+            altB: "Zoro",
+            altC: "Nami",
+        },
+        {
+            id: "id__Me",
+            q: "What's your name ?",
+            answer: "A",
+            altA: "Luffy",
+            altB: "Zoro",
+            altC: "Nami",
+        },
+
+    ])
 
     return (
         <QuizStateContext.Provider value={state}>
