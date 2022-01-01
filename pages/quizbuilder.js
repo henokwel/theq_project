@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     Container, CssBaseline, Box, TextField, InputAdornment,
     Radio, FormControl, FormControlLabel, RadioGroup, Stack,
@@ -20,6 +20,7 @@ import { useRouter } from 'next/router'
 
 import { Add, Delete } from '@mui/icons-material';
 import NextLink from 'next/link';
+import { QuizUpdateContext } from '../src/context';
 
 const uniqid = require("uniqid");
 
@@ -44,6 +45,8 @@ const Quizbuilder = () => {
     });
 
     const router = useRouter()
+
+    const _quizContextUpdate = useContext(QuizUpdateContext)
 
     const handleAlignment = (event, newAlignment) => {
         setAlignment(newAlignment);
@@ -148,6 +151,7 @@ const Quizbuilder = () => {
         // If it's remove it!
 
         // dispatch quiz arr 
+        _quizContextUpdate({ type: "add", payload: qArr })
         // redirect to dashbord
 
 
@@ -204,7 +208,7 @@ const Quizbuilder = () => {
                         exclusive
                         onChange={handleAlignment}
                         aria-label="text alignment"
-                        size="large" 
+                        size="large"
                     >
                         <ToggleButton value="left" aria-label="left aligned">
                             <h3 style={{ margin: 0 }}>Q1</h3>
@@ -362,7 +366,7 @@ const Quizbuilder = () => {
                         <Add />
                     </Fab>
 
-                    <Fab aria-label="add" variant='extended' onClick={() => console.log("Add")} >
+                    <Fab aria-label="add" variant='extended' onClick={handelFinish} >
                         Finish
                     </Fab>
                 </Stack>

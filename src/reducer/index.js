@@ -3,13 +3,17 @@ export const appReducer = (state, action) => {
     switch (action.type) {
         case "add":
             {
-                return [
-                    ...state,
-                    {
-                        text: "",
-                        done: false,
-                    },
-                ];
+
+                console.log("Added");
+                console.log(action.payload);
+                // return [
+                //     ...state,
+                //     {
+                //         text: "",
+                //         done: false,
+                //     },
+                // ];
+                return state
             }
 
             break;
