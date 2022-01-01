@@ -29,12 +29,9 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import ConstructionIcon from '@mui/icons-material/Construction';
-// import {
-//     LayersIcon, BarChartIcon, AssignmentIcon, PeopleIcon, ShoppingCartIcon,
-//     DashboardIcon,
-// } from '@mui/icons-material';
 import NextLink from 'next/link';
-import { Title } from '@mui/icons-material';
+import LinearProgressWithLabel from '../Components/ProgressWithLabel';
+import { Card, CardActionArea, CardContent } from '@mui/material';
 
 
 
@@ -93,11 +90,13 @@ function Dashboard() {
         setOpen(!open);
     };
 
+    
+
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <AppBar position="absolute" open={open}>
+                <AppBar position="absolute" open={open} color='default'>
                     <Toolbar
                         sx={{
                             pr: '24px', // keep right padding when drawer closed
@@ -124,11 +123,7 @@ function Dashboard() {
                         >
                             Dashboard
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
+
                     </Toolbar>
                 </AppBar>
                 <Drawer variant="permanent" open={open}>
@@ -176,7 +171,7 @@ function Dashboard() {
 
                         </div>
                     </List>
-                    <Divider />
+                    {/* <Divider /> */}
 
                 </Drawer>
                 <Box
@@ -189,107 +184,49 @@ function Dashboard() {
                         flexGrow: 1,
                         height: '100vh',
                         overflow: 'auto',
-                     }}
+                    }}
                 >
                     <Toolbar />
-                    <Container maxWidth="lg" sx={{ mt: 4 }}>
+                    <Container maxWidth="xl" sx={{ mt: 4, ml:2 }}>
                         {/* <Grid item spacing={3} xs="auto" md={8} lg={9}
                             sx={{ bgcolor: "yellowgreen" }}> */}
 
                         <Paper
                             sx={{
-
                                 p: 2,
                                 display: 'flex',
                                 flexDirection: 'row',
-
+                                // justifyContent:"space-evenly",
+                                alignItems:"center",
                                 height: 540,
+                                bgcolor: "red",
                                 flexWrap: "wrap",
                                 height: "100%",
                             }}
                         >
 
-                            <Paper
-                                elevation={3}
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 280,
-                                    ml:2
-                                }}
-                            >
+                            <Card sx={{ width: 250, m:2 }}>
+                                <CardActionArea sx={{ height: "100%" }} >
 
-                                <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                                    Recent Deposits
-                                </Typography>
-                                <Typography component="p" variant="h4" sx={{ flex: 1 }}>
-                                    $3,024.00
-                                </Typography>
-                                <Typography color="text.secondary" >
-                                    on 15 March, 2019
-                                </Typography>
-                                <div>
-                                    <Link color="primary" href="#" >
-                                        View balance
-                                    </Link>
-                                </div>
-                            </Paper>
-                            <Paper
-                                elevation={3}
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 280,
-                                    ml: 2
-                                }}
-                            >
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h4" component="div">
+                                            Quiz Title
+                                        </Typography>
+                                        <Typography component="p" variant="p" sx={{ mb: 8 }} >
+                                            Description of the quiz, with few words
+                                        </Typography>
 
-                                <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                                    Recent Deposits
-                                </Typography>
-                                <Typography component="p" variant="h4" sx={{ flex: 1 }}>
-                                    $3,024.00
-                                </Typography>
-                                <Typography color="text.secondary" >
-                                    on 15 March, 2019
-                                </Typography>
-                                <div>
-                                    <Link color="primary" href="#" >
-                                        View balance
-                                    </Link>
-                                </div>
-                            </Paper>
-                            <Paper
-                                elevation={3}
-                                sx={{
-                                    p: 2,
-                                    ml: 2,
+                                        <Typography color="text.secondary"  >
+                                            End: in 20 Days
+                                        </Typography>
+                                        <Paper sx={{ p: 1, paddingLeft: 0 }} elevation={0}>
+                                            <LinearProgressWithLabel value={20} />
+                                        </Paper>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
 
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: 280,
-                                }}
-                            >
-
-                                <Typography component="h2" variant="h6" color="primary" gutterBottom>
-                                    Recent Deposits
-                                </Typography>
-                                <Typography component="p" variant="h4" sx={{ flex: 1 }}>
-                                    $3,024.00
-                                </Typography>
-                                <Typography color="text.secondary" >
-                                    on 15 March, 2019
-                                </Typography>
-                                <div>
-                                    <Link color="primary" href="#" >
-                                        View balance
-                                    </Link>
-                                </div>
-                            </Paper>
-
-
+                            
 
                         </Paper>
                         {/* </Grid> */}
