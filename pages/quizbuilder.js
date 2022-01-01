@@ -3,11 +3,13 @@ import {
     Container, CssBaseline, Box, TextField, InputAdornment,
     Radio, FormControl, FormControlLabel, RadioGroup, Stack,
     Fab,
-    ToggleButton, ToggleButtonGroup
+    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link
 
 } from '@mui/material'
 
+
 import { Add, Delete } from '@mui/icons-material';
+import NextLink from 'next/link';
 
 const uniqid = require("uniqid");
 
@@ -118,10 +120,14 @@ const Quizbuilder = () => {
 
 
 
-    const handelFinish = () => {
+    const handelFinish = async () => {
 
         // Make sure the last Q in array isn't empty. 
         // If it's remove it!
+
+        // dispatch quiz arr 
+        // redirect to dashbord
+
 
 
     }
@@ -136,11 +142,38 @@ const Quizbuilder = () => {
 
     // console.log(qArr);
 
+    const handleClick = (event) => {
+        event.preventDefault();
+        console.info('You clicked a breadcrumb.');
+    }
+
     return (
         <>
             <CssBaseline />
             <Container maxWidth="md">
 
+
+                <div role="presentation" onClick={handleClick} style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Breadcrumbs aria-label="breadcrumb">
+                        <NextLink href="/dashbord" passHref>
+
+                            <M_Link underline="hover" color="inherit" >
+                                Dashbord
+                            </M_Link>
+                        </NextLink>
+
+                        <NextLink href="/" passHref>
+                            <M_Link
+                                underline="hover"
+                                color="text.primary"
+                                aria-current="page"
+                            >
+                                Quiz Builder
+                            </M_Link>
+                        </NextLink>
+
+                    </Breadcrumbs>
+                </div>
                 {/* Quiz Array*/}
                 <Box sx={{ m: 2, }}>
 
