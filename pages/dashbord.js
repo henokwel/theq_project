@@ -17,10 +17,7 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-// import Chart from './Chart';
-// import Deposits from './Deposits';
-// import Orders from './Orders';
-
+import ListItemButton from '@mui/material/ListItemButton';
 
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -31,8 +28,14 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import Quizbuilder from './quizbuilder';
+import ConstructionIcon from '@mui/icons-material/Construction';
+// import {
+//     LayersIcon, BarChartIcon, AssignmentIcon, PeopleIcon, ShoppingCartIcon,
+//     DashboardIcon,
+// } from '@mui/icons-material';
+import NextLink from 'next/link';
+import { Title } from '@mui/icons-material';
+
 
 
 
@@ -84,7 +87,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
+function Dashboard() {
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {
         setOpen(!open);
@@ -144,60 +147,37 @@ function DashboardContent() {
                     <Divider />
                     <List>
                         <div>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <DashboardIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Dashboard" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <ShoppingCartIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Orders" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <PeopleIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Customers" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <BarChartIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Reports" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <LayersIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Integrations" />
-                            </ListItem>
+                            <NextLink href="/" passHref>
+                                <ListItemButton button>
+                                    <ListItemIcon>
+                                        <DashboardIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Dashboard" />
+                                </ListItemButton >
+                            </NextLink>
+
+                            <NextLink href="/quizbuilder" passHref>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ConstructionIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Builder" />
+                                </ListItemButton >
+                            </NextLink>
+
+                            <NextLink href="/" passHref>
+                                <ListItemButton button>
+                                    <ListItemIcon>
+                                        <PeopleIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Customers" />
+                                </ListItemButton >
+                            </NextLink>
+
                         </div>
                     </List>
                     <Divider />
-                    {/* <List>
-                        <ListSubheader inset>Saved reports</ListSubheader>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Current month" />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Last quarter" />
-                        </ListItem>
-                        <ListItem button>
-                            <ListItemIcon>
-                                <AssignmentIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Year-end sale" />
-                        </ListItem>
-                    </List> */}
+
                 </Drawer>
                 <Box
                     component="main"
@@ -209,51 +189,115 @@ function DashboardContent() {
                         flexGrow: 1,
                         height: '100vh',
                         overflow: 'auto',
-                        bgcolor: "green"
-                    }}
+                     }}
                 >
                     <Toolbar />
-                    {/* <Quizbuilder /> */}
-                    {/* <Container maxWidth="lg" sx={{ mt: 4, bgcolor: "red" }}>
-                        <Grid container spacing={3} xs={12} md={8} lg={9}
-                            sx={{ bgcolor: "yellowgreen" }}>
+                    <Container maxWidth="lg" sx={{ mt: 4 }}>
+                        {/* <Grid item spacing={3} xs="auto" md={8} lg={9}
+                            sx={{ bgcolor: "yellowgreen" }}> */}
 
-                            
+                        <Paper
+                            sx={{
+
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'row',
+
+                                height: 540,
+                                flexWrap: "wrap",
+                                height: "100%",
+                            }}
+                        >
 
                             <Paper
+                                elevation={3}
                                 sx={{
-                                    m: 3,
                                     p: 2,
                                     display: 'flex',
-                                    flexDirection: 'row',
-                                    height: 540,
-                                    flexWrap: "wrap",
-                                    bgcolor: "black"
+                                    flexDirection: 'column',
+                                    height: 280,
+                                    ml:2
                                 }}
                             >
 
-                                <div style={{ width: 250, height: 200, background: "blue", margin: 4 }}>
-                                    <h1>Hellow</h1>
+                                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                                    Recent Deposits
+                                </Typography>
+                                <Typography component="p" variant="h4" sx={{ flex: 1 }}>
+                                    $3,024.00
+                                </Typography>
+                                <Typography color="text.secondary" >
+                                    on 15 March, 2019
+                                </Typography>
+                                <div>
+                                    <Link color="primary" href="#" >
+                                        View balance
+                                    </Link>
                                 </div>
-                                <div style={{ width: 250, height: 200, background: "blue", margin: 4 }}>
-                                    <h1>Hellow</h1>
+                            </Paper>
+                            <Paper
+                                elevation={3}
+                                sx={{
+                                    p: 2,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    height: 280,
+                                    ml: 2
+                                }}
+                            >
+
+                                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                                    Recent Deposits
+                                </Typography>
+                                <Typography component="p" variant="h4" sx={{ flex: 1 }}>
+                                    $3,024.00
+                                </Typography>
+                                <Typography color="text.secondary" >
+                                    on 15 March, 2019
+                                </Typography>
+                                <div>
+                                    <Link color="primary" href="#" >
+                                        View balance
+                                    </Link>
                                 </div>
-                                <div style={{ width: 250, height: 200, background: "blue", margin: 4 }}>
-                                    <h1>Hellow</h1>
-                                </div>
-                                <div style={{ width: 250, height: 200, background: "blue", margin: 4 }}>
-                                    <h1>Hellow</h1>
+                            </Paper>
+                            <Paper
+                                elevation={3}
+                                sx={{
+                                    p: 2,
+                                    ml: 2,
+
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    height: 280,
+                                }}
+                            >
+
+                                <Typography component="h2" variant="h6" color="primary" gutterBottom>
+                                    Recent Deposits
+                                </Typography>
+                                <Typography component="p" variant="h4" sx={{ flex: 1 }}>
+                                    $3,024.00
+                                </Typography>
+                                <Typography color="text.secondary" >
+                                    on 15 March, 2019
+                                </Typography>
+                                <div>
+                                    <Link color="primary" href="#" >
+                                        View balance
+                                    </Link>
                                 </div>
                             </Paper>
 
 
 
-                        </Grid>
-                    </Container> */}
+                        </Paper>
+                        {/* </Grid> */}
+                    </Container>
                 </Box>
             </Box>
         </ThemeProvider>
     );
 }
 
-export default DashboardContent;
+export default Dashboard;

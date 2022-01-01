@@ -3,7 +3,7 @@ import {
     Container, CssBaseline, Box, TextField, InputAdornment,
     Radio, FormControl, FormControlLabel, RadioGroup, Stack,
     Fab,
-    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link
+    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography
 
 } from '@mui/material'
 
@@ -155,22 +155,14 @@ const Quizbuilder = () => {
 
                 <div role="presentation" onClick={handleClick} style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Breadcrumbs aria-label="breadcrumb">
-                        <NextLink href="/dashbord" passHref>
+                        <NextLink href="/" passHref>
 
                             <M_Link underline="hover" color="inherit" >
                                 Dashbord
                             </M_Link>
                         </NextLink>
 
-                        <NextLink href="/" passHref>
-                            <M_Link
-                                underline="hover"
-                                color="text.primary"
-                                aria-current="page"
-                            >
-                                Quiz Builder
-                            </M_Link>
-                        </NextLink>
+                        <Typography color="text.primary">Breadcrumbs</Typography>
 
                     </Breadcrumbs>
                 </div>
