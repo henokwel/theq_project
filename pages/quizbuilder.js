@@ -161,27 +161,20 @@ const Quizbuilder = () => {
         setQArr(values);
     };
 
-
-    // console.log(qArr);
-
     const handleClick = (event) => {
         event.preventDefault();
-
-
+        router.push("/")
         console.log(qArr);
         // Check for unfinished quiz and prompt if the user want to discard or draft it,
         // before redirect to dashbord
 
-        if (qArr.length >= 2) {
+        // if (qArr.length >= 2) {
 
-            handleClickOpen()
-            // router.push("/")
-        }
+        // handleClickOpen()
+        // }
 
         console.info('You clicked a breadcrumb.');
-
     }
-    console.log(qArr);
 
     return (
         <>

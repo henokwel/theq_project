@@ -90,7 +90,7 @@ function Dashboard() {
         setOpen(!open);
     };
 
-    
+
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -187,9 +187,7 @@ function Dashboard() {
                     }}
                 >
                     <Toolbar />
-                    <Container maxWidth="xl" sx={{ mt: 4, ml:2 }}>
-                        {/* <Grid item spacing={3} xs="auto" md={8} lg={9}
-                            sx={{ bgcolor: "yellowgreen" }}> */}
+                    <Container fixed sx={{ mt: 4, ml: 2 }}>
 
                         <Paper
                             sx={{
@@ -197,17 +195,17 @@ function Dashboard() {
                                 display: 'flex',
                                 flexDirection: 'row',
                                 // justifyContent:"space-evenly",
-                                alignItems:"center",
+                                alignItems: "center",
                                 height: 540,
-                                bgcolor: "red",
+                                bgcolor: "transparent",
                                 flexWrap: "wrap",
                                 height: "100%",
                             }}
+                            elevation={0}
                         >
 
-                            <Card sx={{ width: 250, m:2 }}>
+                            <Card sx={{ width: 250, m: 2 }}>
                                 <CardActionArea sx={{ height: "100%" }} >
-
                                     <CardContent>
                                         <Typography gutterBottom variant="h4" component="div">
                                             Quiz Title
@@ -226,10 +224,9 @@ function Dashboard() {
                                 </CardActionArea>
                             </Card>
 
-                            
 
                         </Paper>
-                        {/* </Grid> */}
+
                     </Container>
                 </Box>
             </Box>

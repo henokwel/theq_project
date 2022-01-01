@@ -7,7 +7,7 @@ import Quizbuilder from './quizbuilder'
 import quizbuilder from './quizbuilder'
 
 export default function Home() {
-  // const context = useContext()
+  const Context = useContext()
 
   return (
     <div className={styles.container}>
@@ -17,6 +17,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <Quizbuilder /> */}
+    
       <Dashboard />
     </div>
   )
