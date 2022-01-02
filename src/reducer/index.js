@@ -1,7 +1,12 @@
 
 export const appReducer = (state, action) => {
+
+    console.log(state);
+    console.log(action.type);
+    console.log("payload =>",action.payload);
+    
     switch (action.type) {
-        case "add":
+        case "add_quiz":
             {
 
                 console.log("Added");
@@ -17,7 +22,7 @@ export const appReducer = (state, action) => {
             }
 
             break;
-        case "del": {
+        case "del_quiz": {
             return state.filter(item => item.id !== action.payload)
 
         }

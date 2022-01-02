@@ -13,7 +13,7 @@ export function AppWrapper({ children }) {
             desc: "",
             createdDate: "",
             deadline: "",
-            participants: { goal: 200, current: 100 },
+            participants: "",
             quiz: [
                 {
                     id: "id__Me",
@@ -32,9 +32,7 @@ export function AppWrapper({ children }) {
                     altC: "Nami",
                 },
             ],
-            stats: {
 
-            }
         }
 
     ])

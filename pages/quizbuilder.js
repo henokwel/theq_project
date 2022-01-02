@@ -38,6 +38,7 @@ const Quizbuilder = () => {
     const [started, setStarted] = useState(false) // Toggle Display avilability controller
 
 
+
     const [qInfo, setQInfo] = useState({
         id: uniqid(),
         title: "",
@@ -79,30 +80,78 @@ const Quizbuilder = () => {
 
 
 
-    const [open, setOpen] = React.useState(false);
+    const [openDialogPrompt, setDialogPrompt] = React.useState(false);
 
     const handleClickOpen = () => {
-        setOpen(true);
+        setDialogPrompt(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleDialogPrompt = (e, reason) => {
+        // User can Choose btn (Stay) 
+        // Else if  user choose to leave,  redirect to Dashbord. 
+        if (reason === "stay") {
+            setDialogPrompt(false);
+        } else {
+            router.push("/")
+        }
     };
-
+    const handleBreadCrumb = (event) => {
+        event.preventDefault();
+        setDialogPrompt(true)
+    }
 
 
 
     const handelFinish = async () => {
 
-        // 1) Make sure the last Q in array isn't empty. 
-        // If it's remove it!
-
 
         // 2) Handle Started state ON start & On Finish
 
         if (!started) {
+            console.log("Run handleFinsih");
             setStarted(true)
             handleAlignment(null, qArr[0].id)
+        } else {
+
+            // 1) Make sure the last Q in array isn't empty. 
+            // If it's remove it!
+
+
+            // !!! This is a hack. I need to find a better way of doing this part
+
+            const checkFinish = handleAddFields()
+
+            if (checkFinish) {
+                // run Add Function and check for error. 
+                // if no error, remove the last obj and push
+
+
+                // Filter the last Empty Quiz out
+                const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
+
+                _quizContextUpdate({
+                    type: "add", payload: {
+                        ...qInfo,
+                        quiz: finishedQuizz_arr
+                    }
+                })
+
+                router.push("/")
+
+
+
+
+
+            }
+
+            console.log("out fn", qArr);
+
+
+
+
+
+
+
         }
 
 
@@ -113,23 +162,10 @@ const Quizbuilder = () => {
 
 
     }
+    console.log("=>", qArr);
 
 
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        router.push("/")
-        console.log(qArr);
-        // Check for unfinished quiz and prompt if the user want to discard or draft it,
-        // before redirect to dashbord
-
-        // if (qArr.length >= 2) {
-
-        // handleClickOpen()
-        // }
-
-        console.info('You clicked a breadcrumb.');
-    }
 
 
     // ================= Init Quiz Form handler ==================== //
@@ -152,19 +188,9 @@ const Quizbuilder = () => {
 
         setQInfo(values)
 
-        console.log(qInfo);
+        // console.log(qInfo);
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -246,7 +272,7 @@ const Quizbuilder = () => {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: false });
                 handleAlignment(null, newId)
                 setQArr(values);
-                // return
+                return true
             } else {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: true });
             }
@@ -270,7 +296,7 @@ const Quizbuilder = () => {
     };
 
 
-    console.log(qInfo);
+    // console.log(qInfo);
 
 
     return (
@@ -279,7 +305,7 @@ const Quizbuilder = () => {
             <Container maxWidth="md">
 
 
-                <div role="presentation" onClick={handleClick} style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div role="presentation" onClick={handleBreadCrumb} style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <NextLink href="" passHref>
 
@@ -288,7 +314,7 @@ const Quizbuilder = () => {
                             </M_Link>
                         </NextLink>
 
-                        <Typography color="text.primary">Breadcrumbs</Typography>
+                        <Typography color="text.primary">Quiz Builder</Typography>
 
                     </Breadcrumbs>
                 </div>
@@ -321,12 +347,10 @@ const Quizbuilder = () => {
 
                 {/* Alert before exit without save */}
                 <div>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Open alert dialog
-                    </Button>
+
                     <Dialog
-                        open={open}
-                        onClose={handleClose}
+                        open={openDialogPrompt}
+                        onClose={(e) => handleDialogPrompt(e, "stay")}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
@@ -339,8 +363,8 @@ const Quizbuilder = () => {
                             </DialogContentText>
                         </DialogContent> */}
                         <DialogActions>
-                            <Button onClick={handleClose}>Stay</Button>
-                            <Button onClick={handleClose} autoFocus>
+                            <Button onClick={(e) => handleDialogPrompt(e, "stay")}>Stay</Button>
+                            <Button onClick={(e) => handleDialogPrompt(e, "leave")} autoFocus>
                                 Leave
                             </Button>
                         </DialogActions>
@@ -416,6 +440,7 @@ const Quizbuilder = () => {
                                         <MenuItem value={10}>10</MenuItem>
                                         <MenuItem value={100}>100</MenuItem>
                                         <MenuItem value={200}>200</MenuItem>
+                                        <MenuItem value={300}>&gt;300</MenuItem>
                                     </Select>
                                     <FormHelperText>Estimate participants </FormHelperText>
                                 </FormControl>
