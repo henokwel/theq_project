@@ -261,6 +261,11 @@ const Quizbuilder = () => {
     const handleRemoveFields = (index) => {
         const values = [...qArr];
         values.splice(index, 1);
+
+        // Find the removed item, Pick the next item and set that as currentQ
+        handleAlignment(null, values[values.length - 1].id)
+
+        // console.log();
         setQArr(values);
     };
 
@@ -548,7 +553,7 @@ const Quizbuilder = () => {
                     </Fab>
 
                     <Fab aria-label="add" variant='extended' onClick={handelFinish}
-                    // sx={{ visibility: started ? "visible" : currentQ === "title" && !started ? "hidden" : "visible" }} 
+                        sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
                     >
 
                         {!started ? "Next" : "Finish"}
