@@ -6,22 +6,36 @@ export const QuizUpdateContext = createContext();
 
 export function AppWrapper({ children }) {
     const [state, dispatch] = useReducer(appReducer, [
+
         {
-            id: "id__Me",
-            q: "What's your name ?",
-            answer: "A",
-            altA: "Luffy",
-            altB: "Zoro",
-            altC: "Nami",
-        },
-        {
-            id: "id__Me",
-            q: "What's your name ?",
-            answer: "A",
-            altA: "Luffy",
-            altB: "Zoro",
-            altC: "Nami",
-        },
+            id: "",
+            title: "",
+            desc: "",
+            createdDate: "",
+            deadline: "",
+            participants: { goal: 200, current: 100 },
+            quiz: [
+                {
+                    id: "id__Me",
+                    q: "What's your name ?",
+                    answer: "A",
+                    altA: "Luffy",
+                    altB: "Zoro",
+                    altC: "Nami",
+                },
+                {
+                    id: "id__Me",
+                    q: "What's your name ?",
+                    answer: "A",
+                    altA: "Luffy",
+                    altB: "Zoro",
+                    altC: "Nami",
+                },
+            ],
+            stats: {
+
+            }
+        }
 
     ])
 
