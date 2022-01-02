@@ -95,8 +95,8 @@ function Dashboard() {
                     <Toolbar
                         sx={{
                             pr: '24px', // keep right padding when drawer closed
-                        }}
-                    >
+                        }}>
+
                         <IconButton
                             edge="start"
                             color="inherit"
@@ -201,20 +201,22 @@ function Dashboard() {
 
                             {
                                 _quizState.map((item, index) => {
-
+                                    console.log(item);
+                                    const { title, desc, deadline } = item
                                     return (
-                                        <Card key={index} sx={{ width: 250, m: 2 }}>
-                                            <CardActionArea sx={{ height: "100%" }} >
+                                        <Card key={index} sx={{ width: 250, minHeight: 241, m: 2 }}>
+                                            <CardActionArea sx={{ minHeight: 241 }} >
+
                                                 <CardContent>
                                                     <Typography gutterBottom variant="h4" component="div">
-                                                        Quiz Title
+                                                        {!title ? "Quiz Title" : title}
                                                     </Typography>
-                                                    <Typography component="p" variant="p" sx={{ mb: 8 }} >
-                                                        Description of the quiz, with few words
+                                                    <Typography color="text.secondary" component="p" variant="p" sx={{ mb: 8 }} >
+                                                        {desc ? desc : "Description of the quiz, with few words"}
                                                     </Typography>
 
                                                     <Typography color="text.secondary"  >
-                                                        End: in 20 Days
+                                                        {`End: ${deadline ? deadline : "X Date"}`}
                                                     </Typography>
                                                     <Paper sx={{ p: 1, paddingLeft: 0 }} elevation={0}>
                                                         <LinearProgressWithLabel value={20} />
