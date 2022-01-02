@@ -313,15 +313,10 @@ const Quizbuilder = () => {
                             qArr.map((item, index) => <ToggleButton sx={{ visibility: started ? "visible" : "hidden" }} key={item.id} value={item.id} aria-label="centered">
                                 <h3 style={{ margin: 0 }}>{`Q${index + 1}`}</h3>
                             </ToggleButton>
-
                             )
                         }
-
-
                     </ToggleButtonGroup>
                 </Box>
-
-
 
 
                 {/* Alert before exit without save */}
@@ -354,10 +349,9 @@ const Quizbuilder = () => {
 
 
                 {/* // ===== Intro Form  ========= // */}
+
                 {
-
                     <Box sx={{ m: 2, display: currentQ === "title" ? "block" : "none" }} key={`${qInfo.id}`}  >
-
                         {/* Quiz Title */}
                         <div style={{ display: "flex" }}>
                             <TextField
@@ -441,6 +435,7 @@ const Quizbuilder = () => {
 
 
                 {/* // ===== Quiz Form  ========= // */}
+
                 {
                     qArr.map((q, index) => {
 
@@ -465,23 +460,21 @@ const Quizbuilder = () => {
                                         }}
                                     />
 
-
                                     {/* <ToggleButton sx={bgcolor} value="left" aria-label="left aligned">
                                         <h3 style={{ margin: 0}}>X</h3>
                                     </ToggleButton> */}
+
+
                                     <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
                                         <Delete />
                                     </Fab>
                                 </div>
 
-
                                 <Box sx={{ display: "flex", marginTop: 5 }}>
-
 
                                     {/* Multiple choice */}
 
                                     <Stack spacing={1} sx={{ minWidth: "80%" }}>
-
                                         <TextField
                                             id="outlined-multiline-flexible"
                                             placeholder="Enter choose A"
@@ -509,9 +502,8 @@ const Quizbuilder = () => {
                                         />
                                     </Stack>
 
-
-
                                     {/* Answer */}
+
                                     <FormControl component="fieldset" error={true}>
                                         <RadioGroup
                                             aria-label="select correct answer"
@@ -523,7 +515,6 @@ const Quizbuilder = () => {
                                             <FormControlLabel value="A" control={<Radio
                                                 sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
                                                 label="A" />
-
 
                                             <FormControlLabel value="B" control={<Radio
                                                 sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
@@ -555,9 +546,7 @@ const Quizbuilder = () => {
                     <Fab aria-label="add" variant='extended' onClick={handelFinish}
                         sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
                     >
-
                         {!started ? "Next" : "Finish"}
-
                     </Fab>
                 </Stack>
 
