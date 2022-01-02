@@ -34,9 +34,9 @@ const uniqid = require("uniqid");
 
 
 const Quizbuilder = () => {
-    const [currentQ, setCurrentQ] = useState("title")
-    const [started, setStarted] = useState(false) // Toggle Display avilability controller
-
+    const [currentQ, setCurrentQ] = useState("title") // Toggle whick quiz Question you are working on
+    const [started, setStarted] = useState(false) // Toggle Display from Title form to quiz form
+    const [openDialogPrompt, setDialogPrompt] = React.useState(false); // Toggle Dialog propmt, when pressed breadcrum
 
 
     const [qInfo, setQInfo] = useState({
@@ -47,6 +47,7 @@ const Quizbuilder = () => {
         deadline: "",
         participants: ""
     })
+
     const [qArr, setQArr] = useState([
         {
             id: uniqid(),
@@ -57,6 +58,7 @@ const Quizbuilder = () => {
             altC: "",
         },
     ]);
+
     const [inputError, setInputError] = useState({
         id: null,
         q: false,
@@ -67,6 +69,13 @@ const Quizbuilder = () => {
     const router = useRouter()
 
     const _quizContextUpdate = useContext(QuizUpdateContext)
+
+
+
+    // ================= Navigation handler, Breadcrum & Questions Toggler ==================== //
+
+
+    // Handle Toggle of  available quiz questions
 
     const handleAlignment = (event, newAlignment) => {
         console.log("new", newAlignment);
@@ -80,19 +89,19 @@ const Quizbuilder = () => {
 
 
 
-    const [openDialogPrompt, setDialogPrompt] = React.useState(false);
-
-
-
     const handleDialogPrompt = (e, reason) => {
+
         // User can Choose btn (Stay) 
         // Else if  user choose to leave,  redirect to Dashbord. 
+
         if (reason === "stay") {
             setDialogPrompt(false);
         } else {
             router.push("/")
         }
     };
+
+
     const handleBreadCrumb = (event) => {
         event.preventDefault();
         setDialogPrompt(true)
@@ -100,53 +109,7 @@ const Quizbuilder = () => {
 
 
 
-    const handelFinish = async () => {
 
-
-        // Handle Started state ON start &  ? On Finish ?
-
-        if (!started) {
-            console.log("Run handleFinsih");
-            setStarted(true)
-            handleAlignment(null, qArr[0].id)
-        } else {
-
-
-            // !!! This is a hack. I need to find a better way of doing this part
-
-            const checkFinish = handleAddFields()
-
-            if (checkFinish) {
-                // run Add Function and check for error. 
-                // if no error, remove the last obj
-
-                // Filter the last Empty Quiz out
-                const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
-
-                _quizContextUpdate({
-                    type: "add",
-                    payload: {
-                        ...qInfo,
-                        quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
-                    }
-                })
-
-                router.push("/")
-
-            }
-
-            console.log("Runinig runing ");
-        }
-
-
-        // dispatch quiz arr 
-        // _quizContextUpdate({ type: "add", payload: qArr })
-        // redirect to dashbord
-
-
-
-    }
-    console.log("=>", qArr);
 
 
 
@@ -171,9 +134,6 @@ const Quizbuilder = () => {
         }
 
         setQInfo(values)
-
-        // console.log(qInfo);
-
     }
 
 
@@ -207,6 +167,10 @@ const Quizbuilder = () => {
 
         setQArr(values);
     };
+
+
+    // ================= Add & Remove & Finish  handler ==================== //
+
 
     const handleAddFields = () => {
         const values = [...qArr];
@@ -261,10 +225,7 @@ const Quizbuilder = () => {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: true });
             }
         }
-
     };
-
-
 
 
 
@@ -280,7 +241,44 @@ const Quizbuilder = () => {
     };
 
 
-    // console.log(qInfo);
+
+    const handelFinish = async () => {
+
+        // Handle Started state ON start &  ? On Finish ?
+
+        if (!started) {
+            console.log("Run handleFinsih");
+            setStarted(true)
+            handleAlignment(null, qArr[0].id)
+        } else {
+
+            // !!! This is a hack. I need to find a better way of doing this part
+
+            const checkFinish = handleAddFields()
+
+            if (checkFinish) {
+
+                // run Add Function and check for error. 
+                // if no error, remove the last obj
+
+                // Filter the last Empty Quiz out
+                const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
+
+                _quizContextUpdate({
+                    type: "add",
+                    payload: {
+                        ...qInfo,
+                        quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
+                    }
+                })
+
+                router.push("/")
+            }
+        }
+    }
+
+
+
 
 
     return (
