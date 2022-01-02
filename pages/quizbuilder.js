@@ -82,9 +82,7 @@ const Quizbuilder = () => {
 
     const [openDialogPrompt, setDialogPrompt] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setDialogPrompt(true);
-    };
+
 
     const handleDialogPrompt = (e, reason) => {
         // User can Choose btn (Stay) 
@@ -105,16 +103,13 @@ const Quizbuilder = () => {
     const handelFinish = async () => {
 
 
-        // 2) Handle Started state ON start & On Finish
+        // Handle Started state ON start &  ? On Finish ?
 
         if (!started) {
             console.log("Run handleFinsih");
             setStarted(true)
             handleAlignment(null, qArr[0].id)
         } else {
-
-            // 1) Make sure the last Q in array isn't empty. 
-            // If it's remove it!
 
 
             // !!! This is a hack. I need to find a better way of doing this part
@@ -123,35 +118,24 @@ const Quizbuilder = () => {
 
             if (checkFinish) {
                 // run Add Function and check for error. 
-                // if no error, remove the last obj and push
-
+                // if no error, remove the last obj
 
                 // Filter the last Empty Quiz out
                 const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
 
                 _quizContextUpdate({
-                    type: "add", payload: {
+                    type: "add",
+                    payload: {
                         ...qInfo,
-                        quiz: finishedQuizz_arr
+                        quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
                     }
                 })
 
                 router.push("/")
 
-
-
-
-
             }
 
-            console.log("out fn", qArr);
-
-
-
-
-
-
-
+            console.log("Runinig runing ");
         }
 
 
