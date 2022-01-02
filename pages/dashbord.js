@@ -24,6 +24,7 @@ import NextLink from 'next/link';
 import LinearProgressWithLabel from '../Components/ProgressWithLabel';
 import { Card, CardActionArea, CardContent } from '@mui/material';
 import { QuizStateContext } from '../src/context';
+import Link from 'next/link';
 
 
 
@@ -200,33 +201,35 @@ function Dashboard() {
                         >
 
                             {
-                                _quizState.map((item, index) => {
-                                    console.log(item);
-                                    const { title, desc, deadline } = item
-                                    return (
-                                        <Card key={index} sx={{ width: 250, minHeight: 241, m: 2 }}>
-                                            <CardActionArea sx={{ minHeight: 241 }} >
+                                _quizState.length === 0 ? <h1 style={{ mt: 4, }}>Ops! Create Quiz</h1> :
+                                    _quizState.map((item, index) => {
+                                        console.log(item);
+                                        const { title, desc, deadline, id } = item
+                                        return (
+                                            <Card key={index} sx={{ width: 250, minHeight: 241, m: 2 }}>
+                                                <CardActionArea sx={{ minHeight: 241 }} >
+                                                    <Link href={`/quizarena/${id}`} passHref >
+                                                        <CardContent>
+                                                            <Typography gutterBottom variant="h4" component="div">
+                                                                {!title ? "Quiz Title" : title}
+                                                            </Typography>
+                                                            <Typography color="text.secondary" component="p" variant="p" sx={{ mb: 8 }} >
+                                                                {desc ? desc : "Description of the quiz, with few words"}
+                                                            </Typography>
 
-                                                <CardContent>
-                                                    <Typography gutterBottom variant="h4" component="div">
-                                                        {!title ? "Quiz Title" : title}
-                                                    </Typography>
-                                                    <Typography color="text.secondary" component="p" variant="p" sx={{ mb: 8 }} >
-                                                        {desc ? desc : "Description of the quiz, with few words"}
-                                                    </Typography>
+                                                            <Typography color="text.secondary"  >
+                                                                {`End: ${deadline ? deadline : "X Date"}`}
+                                                            </Typography>
+                                                            <Paper sx={{ p: 1, paddingLeft: 0 }} elevation={0}>
+                                                                <LinearProgressWithLabel value={20} />
+                                                            </Paper>
+                                                        </CardContent>
+                                                    </Link>
+                                                </CardActionArea>
+                                            </Card>
 
-                                                    <Typography color="text.secondary"  >
-                                                        {`End: ${deadline ? deadline : "X Date"}`}
-                                                    </Typography>
-                                                    <Paper sx={{ p: 1, paddingLeft: 0 }} elevation={0}>
-                                                        <LinearProgressWithLabel value={20} />
-                                                    </Paper>
-                                                </CardContent>
-                                            </CardActionArea>
-                                        </Card>
-
-                                    )
-                                })
+                                        )
+                                    })
                             }
 
                         </Paper>
@@ -239,3 +242,11 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+
+{/* <Link href="/article/[id]" as={`/article/${item.id}`}>
+<a>
+  <h3>{item.title} &rarr;</h3>
+  <p>{item.body}</p>
+</a>
+</Link> */}
