@@ -34,11 +34,10 @@ const uniqid = require("uniqid");
 
 
 const Quizbuilder = () => {
-    const [alignment, setAlignment] = useState('left');
-    const [currentQ, setCurrentQ] = useState(0)
+    const [currentQ, setCurrentQ] = useState("title")
 
     const [qInfo, setQInfo] = useState({
-        id: "",
+        id: uniqid(),
         title: "",
         desc: "",
         createdDate: "",
@@ -67,7 +66,9 @@ const Quizbuilder = () => {
     const _quizContextUpdate = useContext(QuizUpdateContext)
 
     const handleAlignment = (event, newAlignment) => {
-        setAlignment(newAlignment);
+        console.log(newAlignment);
+        setCurrentQ(newAlignment)
+        // setAlignment(newAlignment);
     };
 
 
@@ -198,9 +199,8 @@ const Quizbuilder = () => {
         console.info('You clicked a breadcrumb.');
     }
 
-    const { id, altA, altB, altC, answer, q } = qArr[currentQ]
 
-
+ 
     return (
         <>
             <CssBaseline />
@@ -224,27 +224,28 @@ const Quizbuilder = () => {
                 <Box sx={{ m: 2, }}>
 
                     <ToggleButtonGroup
-                        value={alignment}
+                        value={currentQ}
 
                         exclusive
                         onChange={handleAlignment}
                         aria-label="text alignment"
                         size="large"
                     >
-                        <ToggleButton value="left" aria-label="left aligned">
+                        <ToggleButton value="title" aria-label="left aligned">
                             {/* <h3 style={{ margin: 0 }}> */}
                             <Title />
                             {/* </h3> */}
-                        </ToggleButton>yarn add @mui/icons-material
-                        <ToggleButton value="center" aria-label="centered">
-                            <h3 style={{ margin: 0 }}>Q1</h3>
                         </ToggleButton>
-                        <ToggleButton value="right" aria-label="right aligned">
-                            <h3 style={{ margin: 0 }}>Q1</h3>
-                        </ToggleButton>
-                        <ToggleButton value="justify" aria-label="justified" disabled>
-                            <h3 style={{ margin: 0 }}>Q1</h3>
-                        </ToggleButton>
+
+                        {
+                            qArr.map(item => <ToggleButton disabled={qInfo.title === ""} key={item.id} value={item.id} aria-label="centered">
+                                <h3 style={{ margin: 0 }}>Q1</h3>
+                            </ToggleButton>
+
+                            )
+                        }
+
+
                     </ToggleButtonGroup>
                 </Box>
 
@@ -282,14 +283,234 @@ const Quizbuilder = () => {
 
 
 
+                {/* 
+                id: uniqid(),
+        title: "",
+        desc: "",
+        createdDate: "",
+        deadline: "",
+        participants: { goal: 100, current: "" }
+                { */}
+
+                {
+
+                    <Box sx={{ m: 2, display: currentQ === "title" ? "block" : "none" }} key={`${qInfo.id}`}  >
+
+                        {/* Quiz Title */}
+                        <div style={{ display: "flex" }}>
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                name="title"
+                                value={qInfo.title}
+                                // onChange={(e) => handleInputChange(null, e)}
+                                placeholder="Quiz Title"
+                                multiline
+                                fullWidth
+                                required
+                                // error={qInfo.id === inputError.id ? inputError.q : false}
+                                maxRows={4}
+
+                            />
+                        </div>
+
+
+                        <Box sx={{ display: "flex", flexDirection: "column", marginTop: 5 }}>
+
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                name="title"
+                                value={qInfo.title}
+                                // onChange={(e) => handleInputChange(index, e)}
+                                placeholder="Short description"
+                                multiline
+                                fullWidth
+                                // error={qInfo.id === inputError.id ? inputError.q : false}
+                                minRows={5}
+                            />
+
+                            <TextField
+                                id="date"
+                                label="Deadline"
+                                type="date"
+                                defaultValue={`${new Date().toISOString().substring(0, 10).toString()}`}
+                                sx={{ width: 220, mt: 4 }}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+
+
+                            {/* Multiple choice */}
+
+                            {/* <TextField
+                                id="outlined-multiline-flexible"
+                                placeholder="Enter choose A"
+                                name="altA"
+                                // error={q.id === inputError.id ? inputError.alt : false}
+                                value={q.altA}
+                                onChange={e => handleInputChange(index, e)}
+                            /> */}
+                            {/* <Stack spacing={1} sx={{ minWidth: "80%" }}>
+
+                            <TextField
+                                id="outlined"
+                                placeholder="Enter choose B "
+                                name="altB"
+                                error={q.id === inputError.id ? inputError.alt : false}
+                                value={q.altB}
+                                onChange={e => handleInputChange(index, e)}
+                            />
+
+                            <TextField
+                                id="outlined"
+                                placeholder="Enter choose C "
+                                name="altC"
+                                error={q.id === inputError.id ? inputError.alt : false}
+                                value={q.altC}
+                                onChange={e => handleInputChange(index, e)}
+                            />
+                        </Stack> */}
+
+
+
+                            {/* Answer */}
+                            {/* <FormControl component="fieldset" error={true}>
+                            <RadioGroup
+                                aria-label="select correct answer"
+                                name="answer"
+                                value={q.answer ?? null}
+                                onChange={e => handleInputChange(index, e)}
+                                sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
+
+                                <FormControlLabel value="A" control={<Radio
+                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                    label="A" />
+
+
+                                <FormControlLabel value="B" control={<Radio
+                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                    label="B" />
+
+                                <FormControlLabel value="C" control={<Radio
+                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                    label="C" />
+
+                            </RadioGroup>
+                        </FormControl> */}
+                        </Box>
+
+                    </Box>
+
+
+                }
+
+
+
 
 
 
                 {
+                    qArr.map((q, index) => {
+
+                        return (
+
+                            <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
+
+                                {/* Question Input */}
+                                <div style={{ display: "flex" }}>
+                                    <TextField
+                                        id="outlined-multiline-flexible"
+                                        name="q_"
+                                        value={q.q}
+                                        onChange={(e) => handleInputChange(index, e)}
+                                        placeholder="Enter your question"
+                                        multiline
+                                        fullWidth
+                                        error={q.id === inputError.id ? inputError.q : false}
+                                        maxRows={4}
+                                        InputProps={{
+                                            startAdornment: <InputAdornment position="start">Q :</InputAdornment>
+                                        }}
+                                    />
+
+
+                                    {/* <ToggleButton sx={bgcolor} value="left" aria-label="left aligned">
+                                        <h3 style={{ margin: 0}}>X</h3>
+                                    </ToggleButton> */}
+                                    <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
+                                        <Delete />
+                                    </Fab>
+                                </div>
+
+
+                                <Box sx={{ display: "flex", marginTop: 5 }}>
+
+
+                                    {/* Multiple choice */}
+
+                                    <Stack spacing={1} sx={{ minWidth: "80%" }}>
+
+                                        <TextField
+                                            id="outlined-multiline-flexible"
+                                            placeholder="Enter choose A"
+                                            name="altA"
+                                            error={q.id === inputError.id ? inputError.alt : false}
+                                            value={q.altA}
+                                            onChange={e => handleInputChange(index, e)}
+                                        />
+                                        <TextField
+                                            id="outlined"
+                                            placeholder="Enter choose B "
+                                            name="altB"
+                                            error={q.id === inputError.id ? inputError.alt : false}
+                                            value={q.altB}
+                                            onChange={e => handleInputChange(index, e)}
+                                        />
+
+                                        <TextField
+                                            id="outlined"
+                                            placeholder="Enter choose C "
+                                            name="altC"
+                                            error={q.id === inputError.id ? inputError.alt : false}
+                                            value={q.altC}
+                                            onChange={e => handleInputChange(index, e)}
+                                        />
+                                    </Stack>
 
 
 
+                                    {/* Answer */}
+                                    <FormControl component="fieldset" error={true}>
+                                        <RadioGroup
+                                            aria-label="select correct answer"
+                                            name="answer"
+                                            value={q.answer ?? null}
+                                            onChange={e => handleInputChange(index, e)}
+                                            sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
+
+                                            <FormControlLabel value="A" control={<Radio
+                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                label="A" />
+
+
+                                            <FormControlLabel value="B" control={<Radio
+                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                label="B" />
+
+                                            <FormControlLabel value="C" control={<Radio
+                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                label="C" />
+
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Box>
+
+                            </Box>
+
+                        )
+                    })
                 }
+
 
 
                 {/* Action buttons for Add & Finish */}
