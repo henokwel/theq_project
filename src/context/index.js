@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useReducer } from 'react';
 import { appReducer } from '../reducer';
 
 export const QuizStateContext = createContext();

@@ -66,6 +66,11 @@ const Quizbuilder = () => {
         answer: false,
     });
 
+
+
+
+    const [infoError, setInfoError] = useState(false); // Error for title input
+
     const router = useRouter()
 
     const _quizContextUpdate = useContext(QuizUpdateContext)
@@ -115,7 +120,7 @@ const Quizbuilder = () => {
 
 
 
-    // ================= Init Quiz Form handler ==================== //
+    // ================= Intro Quiz Form handler ==================== //
 
     const handleIntroInputChange = (e) => {
         const values = { ...qInfo }
@@ -246,9 +251,15 @@ const Quizbuilder = () => {
 
         // Handle Started state ON start &  ? On Finish ?
 
-        if (!started) {
+
+        if (qInfo.title === "") {
+
+            return setInfoError(true)
+
+        } else if (!started) {
             console.log("Run handleFinsih");
             setStarted(true)
+            setInfoError(false) // title is given
             handleAlignment(null, qArr[0].id)
         } else {
 
@@ -264,8 +275,12 @@ const Quizbuilder = () => {
                 // Filter the last Empty Quiz out
                 const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
 
+                // if (qInfo.title === "") {
+                //     qInfo.title = `Quiz _${qInfo.id}`
+                // }
+
                 _quizContextUpdate({
-                    type: "add",
+                    type: "add_quiz",
                     payload: {
                         ...qInfo,
                         quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
@@ -311,7 +326,10 @@ const Quizbuilder = () => {
                         aria-label="text alignment"
                         size="large"
                     >
-                        <ToggleButton value="title" aria-label="left aligned">
+                        <ToggleButton value="title" aria-label="left aligned"
+
+                            sx={{ bgcolor: infoError ? "red" : "inherit" }}
+                        >
                             {/* <h3 style={{ margin: 0 }}> */}
                             <Title />
                             {/* </h3> */}
@@ -368,7 +386,7 @@ const Quizbuilder = () => {
                                 placeholder="Quiz Title"
                                 multiline
                                 fullWidth
-                                // error={qInfo.id === inputError.id ? inputError.q : false}
+                                error={infoError}
                                 maxRows={4}
 
                             />
@@ -387,6 +405,7 @@ const Quizbuilder = () => {
                                 fullWidth
                                 // error={qInfo.id === inputError.id ? inputError.q : false}
                                 minRows={5}
+
                             />
                             <div>
 

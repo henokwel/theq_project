@@ -3,22 +3,17 @@ export const appReducer = (state, action) => {
 
     console.log(state);
     console.log(action.type);
-    console.log("payload =>",action.payload);
-    
+    console.log("payload =>", action.payload);
+
     switch (action.type) {
         case "add_quiz":
             {
 
-                console.log("Added");
-                console.log(action.payload);
-                // return [
-                //     ...state,
-                //     {
-                //         text: "",
-                //         done: false,
-                //     },
-                // ];
-                return state
+                return [
+                    ...state,
+                    action.payload
+                ];
+
             }
 
             break;
