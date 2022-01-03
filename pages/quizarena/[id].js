@@ -1,7 +1,7 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 import {
-    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography, InputLabel, Select, MenuItem, FormHelperText
+    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography, InputLabel, Select, MenuItem, FormHelperText, Divider
 } from '@mui/material'
 
 
@@ -41,7 +41,7 @@ const QuizArena = () => {
     useEffect(() => {
         const filterQuiz = res.filter(item => item.id === id)[0]
         console.log(filterQuiz.quiz);
-        
+
         setQArr(filterQuiz.quiz)
     }, [])
 
@@ -70,6 +70,8 @@ const QuizArena = () => {
             altC: "",
         },
     ]);
+
+    const [userAnswer, setUserAnswer] = useState([])
 
     const [inputError, setInputError] = useState({
         id: null,
@@ -132,26 +134,39 @@ const QuizArena = () => {
 
     // ================= QUIZ  Form handler ==================== //
 
-    const handleInputChange = (
+    const handleUserAnswer = (
         index,
         event
     ) => {
-        const values = [...qArr];
+        const values = [...userAnswer];
         const target = event.target
 
-        // change to Switch
-        if (target.name === "altA" && target.value !== " ") {
-            values[index].altA = target.value;
-        } else if (target.name === "altB" && target.value !== " ") {
-            values[index].altB = target.value;
-        } else if (target.name === "altC" && target.value !== " ") {
-            values[index].altC = target.value;
 
+
+        // handle Answer
+
+
+        if (target.name === "answer") {
+            // id and user answer
+
+
+            const _quizId = values.filter(item => item.id === index)[0]
+
+            if (!_quizId) {
+                return setUserAnswer([...values, { id: index, answer: target.value }])
+            } else {
+
+                console.log(_quizId.answer)
+                console.log("value exist");
+                _quizId.answer = target.value
+
+                return setUserAnswer(values)
+            }
         }
 
-
-        setQArr(values);
     };
+
+    console.log(userAnswer);
 
 
     // ================= Add & Remove & Finish  handler ==================== //
@@ -361,7 +376,7 @@ const QuizArena = () => {
 
                                 {/* Question Input */}
                                 <div style={{ display: "flex" }}>
-                                    <TextField
+                                    {/* <TextField
                                         id="standard-multiline-flexible"
                                         name="q_"
                                         value={q.q}
@@ -376,8 +391,12 @@ const QuizArena = () => {
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start">Q :</InputAdornment>
                                         }}
-                                    />
+                                    /> */}
 
+
+                                    <Typography variant='h3'>
+                                        {q.q}
+                                    </Typography>
 
 
 
@@ -391,8 +410,8 @@ const QuizArena = () => {
 
                                     {/* Multiple choice */}
 
-                                    <Stack spacing={1} sx={{ minWidth: "80%" }}>
-                                        <TextField
+                                    <Stack spacing={3} sx={{ minWidth: "40%" }}>
+                                        {/* <TextField
                                             id="standard-multiline-flexible"
                                             placeholder="Enter choose A"
                                             name="altA"
@@ -401,8 +420,21 @@ const QuizArena = () => {
                                             variant="standard"
                                             disabled
                                         // onChange={e => handleInputChange(index, e)}
-                                        />
-                                        <TextField
+                                        /> */}
+                                        <Typography variant='p' si>
+                                            {q.altA}
+                                        </Typography>
+                                        <Divider />
+
+                                        <Typography variant='p'>
+                                            {q.altB}
+                                        </Typography>
+                                        <Divider />
+                                        <Typography variant='p'>
+                                            {q.altC}
+                                        </Typography>
+                                        <Divider />
+                                        {/* <TextField
                                             id="standard"
                                             placeholder="Enter choose B "
                                             name="altB"
@@ -422,7 +454,7 @@ const QuizArena = () => {
                                             // onChange={e => handleInputChange(index, e)}
                                             variant="standard"
                                             disabled
-                                        />
+                                        /> */}
                                     </Stack>
 
                                     {/* Answer */}
@@ -431,8 +463,9 @@ const QuizArena = () => {
                                         <RadioGroup
                                             aria-label="select correct answer"
                                             name="answer"
-                                            value={q.answer ?? null}
-                                            onChange={e => handleInputChange(index, e)}
+                                            defaultChecked={false}
+
+                                            onChange={e => handleUserAnswer(q.id, e)}
                                             sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
 
                                             <FormControlLabel value="A" control={<Radio
