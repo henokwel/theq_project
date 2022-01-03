@@ -24,7 +24,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 import { useRouter } from 'next/router'
 
-import { Add, Delete, Title } from '@mui/icons-material';
 
 import { QuizStateContext, QuizUpdateContext } from '../../src/context'
 
@@ -36,49 +35,27 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
-import { breakpoints } from '@mui/system'
-const uniqid = require("uniqid");
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 const QuizArena = () => {
+
+
+
+    const [hideQ_Arena, setHideQ_Arena] = useState(false)
+
+    const [currentQ, setCurrentQ] = useState("title") // Toggle whick quiz Question you are working on
+    const [openDialogPrompt, setDialogPrompt] = React.useState(false); // Toggle Dialog propmt, when pressed breadcrum
+
 
     const route = useRouter()
     const { id } = route.query
 
     const res = useContext(QuizStateContext)
-    // useEffect(() => {
-    //     const filterQuiz = res.filter(item => item.id === id)[0]
-    //     console.log(filterQuiz.quiz);
-
-    //     setQArr(filterQuiz.quiz)
-    // }, [])
 
 
 
-
-    const [currentQ, setCurrentQ] = useState("title") // Toggle whick quiz Question you are working on
-    const [started, setStarted] = useState(true) // Toggle Display from Title form to quiz form
-    const [openDialogPrompt, setDialogPrompt] = React.useState(false); // Toggle Dialog propmt, when pressed breadcrum
-
-
-    const [qInfo, setQInfo] = useState({
-        id: uniqid(),
-        title: "",
-        desc: "",
-        createdDate: new Date().toISOString().substring(0, 10),
-        deadline: "",
-        participants: ""
-    })
-
-    const [qArr, setQArr] = useState([
-        {
-            id: uniqid(),
-            q: "",
-            answer: null,
-            altA: "",
-            altB: "",
-            altC: "",
-        },
-    ]);
+    const [qArr, setQArr] = useState([]);
 
     const [userAnswer, setUserAnswer] = useState([])
 
@@ -135,10 +112,7 @@ const QuizArena = () => {
 
 
             /// Save data to Local, to avoid error
-
         })()
-
-
     }, [])
 
 
@@ -215,27 +189,6 @@ const QuizArena = () => {
     // ================= Quiz FInish handler ==================== //
 
 
-    const [hideQ_Arena, setHideQ_Arena] = useState(false)
-
-
-    // const handelFinish = async () => {
-    //     // hide Quiz arena => animation, celebration
-
-    //     setHideQ_Arena(true)
-    //     // calculate answers
-    //     // display Results 
-    // }
-
-
-
-    // const handleTryAgain = async () => {
-
-    //     // reset answer 
-
-    //     setUserAnswer([])
-    //     handleAlignment(null, qArr[0].id)
-    //     setHideQ_Arena(false)
-    // }
 
 
 
@@ -245,12 +198,17 @@ const QuizArena = () => {
 
         switch (type) {
             case "finish": {
+                if (userAnswer.length !== qArr.length) {
+                    setunfinished_error(true);
+                    return
+                }
+
                 setHideQ_Arena(true)
             }
                 break;
             case "again": {
                 setUserAnswer([])
-                handleAlignment(null, qArr[0].id)
+                // handleAlignment(null, qArr[0].id)
                 setHideQ_Arena(false)
             }
 
@@ -302,6 +260,28 @@ const QuizArena = () => {
 
 
 
+
+    //==>>> Handle Snackbar Error
+
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="standard" {...props} />;
+    });
+
+
+    const [unfinished_error, setunfinished_error] = useState(false);
+
+    const handleClick = () => {
+        setunfinished_error(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setunfinished_error(false);
+    };
 
     return (
         <>
@@ -377,7 +357,9 @@ const QuizArena = () => {
 
                 {/* // ===== Quiz Form  ========= // */}
 
-
+                <Button variant="outlined" onClick={handleClick}>
+                    Open success snackbar
+                </Button>
 
                 {
 
@@ -541,7 +523,7 @@ const QuizArena = () => {
                         <Typography>Try Again</Typography>
                     </Fab>
 
-                    <Fab aria-label={!started ? "Next" : "Finish"} variant='extended' onClick={() => quizArenaBtn_handler("finish")}
+                    <Fab aria-label="Finish" variant='extended' onClick={() => quizArenaBtn_handler("finish")}
                         sx={{ visibility: hideQ_Arena ? "hidden" : "visible" }}
                     >
                         <Typography>
@@ -551,6 +533,17 @@ const QuizArena = () => {
 
 
                 </Stack>
+
+
+                <Snackbar open={unfinished_error} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="warning" sx={{ width: '100%', color: "black" }}>
+                        <Typography>
+                            PLEASE, ANSWER ALL THE QUESTIONS !
+                        </Typography>
+
+                    </Alert>
+
+                </Snackbar>
 
 
             </Container>
