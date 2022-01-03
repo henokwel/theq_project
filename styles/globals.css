@@ -22,3 +22,11 @@ a {
   box-shadow: none;
   margin-left: 5px;
 }
+
+.MuiCardContent-root{
+height: 100%;
+}
+
+#breadcrum-dashbord-a{
+  cursor: pointer;
+}

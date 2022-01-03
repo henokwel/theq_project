@@ -1,13 +1,21 @@
 import React, { useContext, useState } from 'react'
 import {
-    Container, CssBaseline, Box, TextField, InputAdornment,
-    Radio, FormControl, FormControlLabel, RadioGroup, Stack,
-    Fab,
-    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography
-
+    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography, InputLabel, Select, MenuItem, FormHelperText
 } from '@mui/material'
 
 
+import Container from '@mui/material/Container'
+import CssBaseline from '@mui/material/CssBaseline'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import InputAdornment from '@mui/material/InputAdornment'
+
+import Radio from '@mui/material/Radio'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import RadioGroup from '@mui/material/RadioGroup'
+import Stack from '@mui/material/Stack'
+import Fab from '@mui/material/Fab'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,7 +26,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useRouter } from 'next/router'
 
 
-import { Add, Delete } from '@mui/icons-material';
+import { Add, Delete, Title } from '@mui/icons-material';
 import NextLink from 'next/link';
 import { QuizUpdateContext } from '../src/context';
 
@@ -26,7 +34,20 @@ const uniqid = require("uniqid");
 
 
 const Quizbuilder = () => {
-    const [alignment, setAlignment] = useState('left');
+    const [currentQ, setCurrentQ] = useState("title") // Toggle whick quiz Question you are working on
+    const [started, setStarted] = useState(false) // Toggle Display from Title form to quiz form
+    const [openDialogPrompt, setDialogPrompt] = React.useState(false); // Toggle Dialog propmt, when pressed breadcrum
+
+
+    const [qInfo, setQInfo] = useState({
+        id: uniqid(),
+        title: "",
+        desc: "",
+        createdDate: new Date().toISOString().substring(0, 10),
+        deadline: "",
+        participants: ""
+    })
+
     const [qArr, setQArr] = useState([
         {
             id: uniqid(),
@@ -37,6 +58,7 @@ const Quizbuilder = () => {
             altC: "",
         },
     ]);
+
     const [inputError, setInputError] = useState({
         id: null,
         q: false,
@@ -44,14 +66,86 @@ const Quizbuilder = () => {
         answer: false,
     });
 
+
+
+
+    const [infoError, setInfoError] = useState(false); // Error for title input
+
     const router = useRouter()
 
     const _quizContextUpdate = useContext(QuizUpdateContext)
 
+
+
+    // ================= Navigation handler, Breadcrum & Questions Toggler ==================== //
+
+
+    // Handle Toggle of  available quiz questions
+
     const handleAlignment = (event, newAlignment) => {
-        setAlignment(newAlignment);
+        console.log("new", newAlignment);
+        console.log("current", currentQ);
+        if (newAlignment === null) return
+
+        setCurrentQ(newAlignment)
+        console.log(qArr);
+        // setAlignment(newAlignment);
     };
 
+
+
+    const handleDialogPrompt = (e, reason) => {
+
+        // User can Choose btn (Stay) 
+        // Else if  user choose to leave,  redirect to Dashbord. 
+
+        if (reason === "stay") {
+            setDialogPrompt(false);
+        } else {
+            router.push("/")
+        }
+    };
+
+
+    const handleBreadCrumb = (event) => {
+        event.preventDefault();
+        setDialogPrompt(true)
+    }
+
+
+
+
+
+
+
+
+
+    // ================= Intro Quiz Form handler ==================== //
+
+    const handleIntroInputChange = (e) => {
+        const values = { ...qInfo }
+
+        const target = e.target
+
+
+        if (target.name === "title" && target.value !== " ") {
+            values.title = target.value;
+        } else if (target.name === "description" && target.value !== " ") {
+            values.desc = target.value;
+        } else if (target.name === "deadline") {
+            values.deadline = target.value;
+        } else if (target.name === "participants" && target.value !== " ") {
+            values.participants = target.value;
+        }
+
+        setQInfo(values)
+    }
+
+
+
+
+
+    // ================= QUIZ  Form handler ==================== //
 
     const handleInputChange = (
         index,
@@ -75,13 +169,13 @@ const Quizbuilder = () => {
         else if (target.name === "answer") {
             values[index].answer = target.value;
         }
-        // else {
-        //     values[index].answer = target.value;
-        // }
-
 
         setQArr(values);
     };
+
+
+    // ================= Add & Remove & Finish  handler ==================== //
+
 
     const handleAddFields = () => {
         const values = [...qArr];
@@ -113,9 +207,15 @@ const Quizbuilder = () => {
         else {
             console.log("Last Else");
 
+
+            // Get the current ID  
+            // For toggle purposes
+            let newId = uniqid()
+
+
             if (lastQ.answer) {
                 values.push({
-                    id: uniqid(),
+                    id: newId,
                     q: "",
                     answer: null,
                     altA: "",
@@ -123,62 +223,79 @@ const Quizbuilder = () => {
                     altC: "",
                 });
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: false });
+                handleAlignment(null, newId)
                 setQArr(values);
-                // return
+                return true
             } else {
                 setInputError({ id: lastQ.id, q: false, alt: false, answer: true });
             }
         }
-        console.log(qArr);
-
     };
 
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-
-    const handelFinish = async () => {
-
-        // Make sure the last Q in array isn't empty. 
-        // If it's remove it!
-
-        // dispatch quiz arr 
-        _quizContextUpdate({ type: "add", payload: qArr })
-        // redirect to dashbord
-
-
-
-    }
 
 
     const handleRemoveFields = (index) => {
         const values = [...qArr];
         values.splice(index, 1);
+
+        // Find the removed item, Pick the next item and set that as currentQ
+        handleAlignment(null, values[values.length - 1].id)
+
+        // console.log();
         setQArr(values);
     };
 
-    const handleClick = (event) => {
-        event.preventDefault();
-        router.push("/")
-        console.log(qArr);
-        // Check for unfinished quiz and prompt if the user want to discard or draft it,
-        // before redirect to dashbord
 
-        // if (qArr.length >= 2) {
 
-        // handleClickOpen()
-        // }
+    const handelFinish = async () => {
 
-        console.info('You clicked a breadcrumb.');
+        // Handle Started state ON start &  ? On Finish ?
+
+
+        if (qInfo.title === "") {
+
+            return setInfoError(true)
+
+        } else if (!started) {
+            console.log("Run handleFinsih");
+            setStarted(true)
+            setInfoError(false) // title is given
+            handleAlignment(null, qArr[0].id)
+        } else {
+
+            // !!! This is a hack. I need to find a better way of doing this part
+
+            const checkFinish = handleAddFields()
+
+            if (checkFinish) {
+
+                // run Add Function and check for error. 
+                // if no error, remove the last obj
+
+                // Filter the last Empty Quiz out
+                // const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
+
+                // if (qInfo.title === "") {
+                //     qInfo.title = `Quiz _${qInfo.id}`
+                // }
+
+                _quizContextUpdate({
+                    type: "add_quiz",
+                    payload: {
+                        ...qInfo,
+                        quiz: qArr
+                        //  quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
+                    }
+                })
+
+                router.push("/")
+            }
+        }
     }
+
+
+
+
 
     return (
         <>
@@ -186,7 +303,7 @@ const Quizbuilder = () => {
             <Container maxWidth="md">
 
 
-                <div role="presentation" onClick={handleClick} style={{ display: "flex", justifyContent: "flex-end" }}>
+                <div role="presentation" onClick={handleBreadCrumb} style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <NextLink href="" passHref>
 
@@ -195,7 +312,7 @@ const Quizbuilder = () => {
                             </M_Link>
                         </NextLink>
 
-                        <Typography color="text.primary">Breadcrumbs</Typography>
+                        <Typography color="text.primary">Quiz Builder</Typography>
 
                     </Breadcrumbs>
                 </div>
@@ -203,39 +320,38 @@ const Quizbuilder = () => {
                 <Box sx={{ m: 2, }}>
 
                     <ToggleButtonGroup
-                        value={alignment}
+                        value={currentQ}
 
                         exclusive
                         onChange={handleAlignment}
                         aria-label="text alignment"
                         size="large"
                     >
-                        <ToggleButton value="left" aria-label="left aligned">
-                            <h3 style={{ margin: 0 }}>Q1</h3>
-                        </ToggleButton>yarn add @mui/icons-material
-                        <ToggleButton value="center" aria-label="centered">
-                            <h3 style={{ margin: 0 }}>Q1</h3>
+                        <ToggleButton value="title" aria-label="left aligned"
+
+                            sx={{ bgcolor: infoError ? "red" : "inherit" }}
+                        >
+                            {/* <h3 style={{ margin: 0 }}> */}
+                            <Title />
+                            {/* </h3> */}
                         </ToggleButton>
-                        <ToggleButton value="right" aria-label="right aligned">
-                            <h3 style={{ margin: 0 }}>Q1</h3>
-                        </ToggleButton>
-                        <ToggleButton value="justify" aria-label="justified" disabled>
-                            <h3 style={{ margin: 0 }}>Q1</h3>
-                        </ToggleButton>
+
+                        {
+                            qArr.map((item, index) => <ToggleButton sx={{ visibility: started ? "visible" : "hidden" }} key={item.id} value={item.id} aria-label="centered">
+                                <h3 style={{ margin: 0 }}>{`Q${index + 1}`}</h3>
+                            </ToggleButton>
+                            )
+                        }
                     </ToggleButtonGroup>
                 </Box>
 
 
-
-
                 {/* Alert before exit without save */}
                 <div>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                        Open alert dialog
-                    </Button>
+
                     <Dialog
-                        open={open}
-                        onClose={handleClose}
+                        open={openDialogPrompt}
+                        onClose={(e) => handleDialogPrompt(e, "stay")}
                         aria-labelledby="alert-dialog-title"
                         aria-describedby="alert-dialog-description"
                     >
@@ -248,19 +364,115 @@ const Quizbuilder = () => {
                             </DialogContentText>
                         </DialogContent> */}
                         <DialogActions>
-                            <Button onClick={handleClose}>Stay</Button>
-                            <Button onClick={handleClose} autoFocus>
+                            <Button onClick={(e) => handleDialogPrompt(e, "stay")}>Stay</Button>
+                            <Button onClick={(e) => handleDialogPrompt(e, "leave")} autoFocus>
                                 Leave
                             </Button>
                         </DialogActions>
                     </Dialog>
                 </div>
+
+
+                {/* // ===== Intro Form  ========= // */}
+
+                {
+                    <Box sx={{ m: 2, display: currentQ === "title" ? "block" : "none" }} key={`${qInfo.id}`}  >
+                        {/* Quiz Title */}
+                        <div style={{ display: "flex" }}>
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                name="title"
+                                value={qInfo.title}
+                                onChange={(e) => handleIntroInputChange(e)}
+                                placeholder="Quiz Title"
+                                multiline
+                                fullWidth
+                                error={infoError}
+                                maxRows={4}
+
+                            />
+                        </div>
+
+
+                        <Box sx={{ display: "flex", flexDirection: "column", marginTop: 5 }}>
+
+                            <TextField
+                                id="outlined-multiline-flexible"
+                                name="description"
+                                value={qInfo.desc}
+                                onChange={(e) => handleIntroInputChange(e)}
+                                placeholder="Short description"
+                                multiline
+                                fullWidth
+                                // error={qInfo.id === inputError.id ? inputError.q : false}
+                                minRows={5}
+
+                            />
+                            <div>
+
+
+                                <TextField
+                                    id="date"
+                                    label="Deadline"
+                                    type="date"
+                                    name='deadline'
+                                    onChange={(e) => handleIntroInputChange(e)}
+                                    value={qInfo.deadline === "" ?
+                                        new Date().toISOString().substring(0, 10).toString()
+                                        :
+                                        qInfo.deadline
+                                    }
+                                    // defaultValue={`${new Date().toISOString().substring(0, 10).toString()}`}
+                                    sx={{ width: 220, mt: 4 }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+
+
+                                <FormControl sx={{ mt: 4, ml: 5, minWidth: 120 }}>
+                                    <InputLabel id="demo-simple-select-helper-label">Participants</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-helper-label"
+                                        id="demo-simple-select-helper"
+                                        value={qInfo.participants}
+                                        label="participants"
+                                        name="participants"
+                                        onChange={(e) => handleIntroInputChange(e)}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value={10}>10</MenuItem>
+                                        <MenuItem value={100}>100</MenuItem>
+                                        <MenuItem value={200}>200</MenuItem>
+                                        <MenuItem value={300}>&gt;300</MenuItem>
+                                    </Select>
+                                    <FormHelperText>Estimate participants </FormHelperText>
+                                </FormControl>
+
+
+                            </div>
+
+                        </Box>
+
+                    </Box>
+
+
+                }
+
+
+
+
+
+                {/* // ===== Quiz Form  ========= // */}
+
                 {
                     qArr.map((q, index) => {
-                        console.log(index);
+
                         return (
 
-                            <Box sx={{ m: 2 }} key={`${q}~${index}`} >
+                            <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
 
                                 {/* Question Input */}
                                 <div style={{ display: "flex" }}>
@@ -279,23 +491,21 @@ const Quizbuilder = () => {
                                         }}
                                     />
 
-
                                     {/* <ToggleButton sx={bgcolor} value="left" aria-label="left aligned">
                                         <h3 style={{ margin: 0}}>X</h3>
                                     </ToggleButton> */}
+
+
                                     <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
                                         <Delete />
                                     </Fab>
                                 </div>
 
-
                                 <Box sx={{ display: "flex", marginTop: 5 }}>
-
 
                                     {/* Multiple choice */}
 
                                     <Stack spacing={1} sx={{ minWidth: "80%" }}>
-
                                         <TextField
                                             id="outlined-multiline-flexible"
                                             placeholder="Enter choose A"
@@ -323,9 +533,8 @@ const Quizbuilder = () => {
                                         />
                                     </Stack>
 
-
-
                                     {/* Answer */}
+
                                     <FormControl component="fieldset" error={true}>
                                         <RadioGroup
                                             aria-label="select correct answer"
@@ -337,7 +546,6 @@ const Quizbuilder = () => {
                                             <FormControlLabel value="A" control={<Radio
                                                 sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
                                                 label="A" />
-
 
                                             <FormControlLabel value="B" control={<Radio
                                                 sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
@@ -361,13 +569,15 @@ const Quizbuilder = () => {
 
                 {/* Action buttons for Add & Finish */}
 
-                < Stack sx={{ marginTop: 6 }} direction="row" spacing={4} justifyContent="space-between" >
-                    <Fab color="primary" aria-label="add" onClick={handleAddFields} >
+                < Stack sx={{ marginTop: 6 }} direction="row-reverse" spacing={4} justifyContent="space-between" >
+                    <Fab color="primary" aria-label="add" onClick={handleAddFields} sx={{ visibility: currentQ === "title" ? "hidden" : "visible" }}>
                         <Add />
                     </Fab>
 
-                    <Fab aria-label="add" variant='extended' onClick={handelFinish} >
-                        Finish
+                    <Fab aria-label={!started ? "Next" : "Finish"} variant='extended' onClick={handelFinish}
+                        sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
+                    >
+                        {!started ? "Next" : "Finish"}
                     </Fab>
                 </Stack>
 
