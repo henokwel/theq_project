@@ -35,7 +35,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
 const uniqid = require("uniqid");
 
 const QuizArena = () => {
@@ -120,8 +120,6 @@ const QuizArena = () => {
     useEffect(() => {
         (async () => {
 
-
-
             const filterQuiz = await res.filter(item => item.id === id)[0]
             console.log(filterQuiz.quiz);
 
@@ -131,13 +129,8 @@ const QuizArena = () => {
             setQArr(filterQuiz.quiz)
 
 
-
             /// Save data to Local, to avoid error
 
-            if (filterQuiz.quiz === undefined) {
-                route.push("/")
-                return
-            }
         })()
 
 
@@ -177,7 +170,7 @@ const QuizArena = () => {
 
 
 
-    // ================= QUIZ  Form handler ==================== //
+    // ================= QUIZ  Answer handler ==================== //
 
     const handleUserAnswer = (
         index,
@@ -214,77 +207,10 @@ const QuizArena = () => {
     console.log(userAnswer);
 
 
-    // ================= Add & Remove & Finish  handler ==================== //
+    // ================= Quiz FInish handler ==================== //
 
 
-    const handleAddFields = () => {
-        const values = [...qArr];
-
-        // Add workingOnCurrently to make sure user don't go back and changeSometing!
-        // With better UI you can toggle between Q and make sure to check that everything is Filled!
-
-        // A better way to handle nested Logic
-        // => https://www.freecodecamp.org/news/so-youre-in-if-else-hell-here-s-how-to-get-out-of-it-fc6407fec0e/
-
-        // start with finding the last Q in the array
-
-        let lastQ =
-            values[values.length - 1] === undefined
-                ? values[0]
-                : values[values.length - 1];
-
-        // Q Check
-        if (lastQ.q === "") {
-            console.error("No Q give");
-            setInputError({ id: lastQ.id, q: true, alt: false, answer: false });
-            // check for  alternative, all must be given
-        } else if (!lastQ.altA || !lastQ.altB || !lastQ.altC) {
-            console.error("NO Alts given");
-            // console.log("Error ALt");
-            setInputError({ id: lastQ.id, q: false, alt: true, answer: false });
-        }
-
-        else {
-            console.log("Last Else");
-
-
-            // Get the current ID  
-            // For toggle purposes
-            let newId = uniqid()
-
-
-            if (lastQ.answer) {
-                values.push({
-                    id: newId,
-                    q: "",
-                    answer: null,
-                    altA: "",
-                    altB: "",
-                    altC: "",
-                });
-                setInputError({ id: lastQ.id, q: false, alt: false, answer: false });
-                handleAlignment(null, newId)
-                setQArr(values);
-                return true
-            } else {
-                setInputError({ id: lastQ.id, q: false, alt: false, answer: true });
-            }
-        }
-    };
-
-
-
-    const handleRemoveFields = (index) => {
-        const values = [...qArr];
-        values.splice(index, 1);
-
-        // Find the removed item, Pick the next item and set that as currentQ
-        handleAlignment(null, values[values.length - 1].id)
-
-        // console.log();
-        setQArr(values);
-    };
-
+    const [hideQ_Arena, setHideQ_Arena] = useState(false)
 
 
     const handelFinish = async () => {
@@ -295,17 +221,65 @@ const QuizArena = () => {
 
         setHideQ_Arena(true)
 
+        console.log(getResults());
+
+
+
         // calculate answers
         // display Results 
-        // map & show q and alt with right answers vs users answers
+    }
 
 
+    const handleTryAgain = async () => {
+
+        // reset answer 
+
+        setHideQ_Arena(false)
 
 
 
     }
 
 
+
+
+
+
+    const getCorrectAnswer = (id) => {
+        const res = userAnswer.filter(item => item.id === id)[0]
+
+        if (!res) return "Unknown"
+
+        const correctAnswer = getResults().find(item => item.id === id)
+
+        return { a: res.answer, correct: correctAnswer }
+    }
+
+    const getResults = () => {
+        // loop user answer and see if answer match with qArr
+
+
+
+
+        const res = qArr.map(item => {
+
+            const resz = userAnswer.filter(ans => ans.id === item.id)[0]
+
+
+            if (resz.answer === item.answer) {
+
+                return item
+
+            } else return null
+
+
+
+
+        })
+
+        return res.filter(item => item !== null)
+
+    }
 
     return (
         <>
@@ -326,23 +300,23 @@ const QuizArena = () => {
 
                     </Breadcrumbs>
                 </div>
-                {/* Quiz Array*/}
-                <Box sx={{ m: 2, }}>
+
+
+
+                {/* Quiz Toggle*/}
+
+
+                <Box sx={{ m: 2, visibility: !hideQ_Arena ? "visible" : "hidden" }}>
+
+
 
                     <ToggleButtonGroup
                         value={currentQ}
-
                         exclusive
                         onChange={handleAlignment}
                         aria-label="text alignment"
                         size="large"
                     >
-                        {/* <ToggleButton value="title" aria-label="left aligned"
-
-                            sx={{ bgcolor: infoError ? "red" : "inherit" }}
-                        >
-                             <Title />
-                         </ToggleButton> */}
 
                         {
                             qArr.map((item, index) => <ToggleButton key={item.id} value={item.id} aria-label="centered">
@@ -379,22 +353,22 @@ const QuizArena = () => {
 
 
 
-
-
-
-
                 {/* // ===== Quiz Form  ========= // */}
 
+
+
                 {
-                    qArr.map((q, index) => {
 
-                        return (
+                    !hideQ_Arena ?
+                        qArr.map((q, index) => {
 
-                            <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
+                            return (
 
-                                {/* Question Input */}
-                                <div>
-                                    {/* <TextField
+                                <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
+
+                                    {/* Question Input */}
+                                    <div>
+                                        {/* <TextField
                                         id="standard-multiline-flexible"
                                         name="q_"
                                         value={q.q}
@@ -412,72 +386,121 @@ const QuizArena = () => {
                                     /> */}
 
 
-                                    <Typography variant='h4' sx={{ mt: 5 }}>
-                                        {q.q}
-                                    </Typography>
+                                        <Typography variant='h4' sx={{ mt: 5 }}>
+                                            {q.q}
+                                        </Typography>
 
 
 
 
-                                    {/* <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
+                                        {/* <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
                                         <Delete />
                                     </Fab> */}
-                                </div>
+                                    </div>
 
-                                <Box sx={{ display: "flex", marginTop: 5 }}>
+                                    <Box sx={{ display: "flex", marginTop: 5 }}>
 
-                                    {/* Multiple choice */}
+                                        {/* Multiple choice */}
 
-                                    <Stack spacing={3} sx={{ minWidth: "40%" }}>
+                                        <Stack spacing={3} sx={{ minWidth: "40%" }}>
 
-                                        <Typography variant='p' si>
-                                            {q.altA}
-                                        </Typography>
-                                        <Divider />
+                                            <Typography variant='p' si>
+                                                {q.altA}
+                                            </Typography>
+                                            <Divider />
 
-                                        <Typography variant='p'>
-                                            {q.altB}
-                                        </Typography>
-                                        <Divider />
-                                        <Typography variant='p'>
-                                            {q.altC}
-                                        </Typography>
-                                        <Divider />
+                                            <Typography variant='p'>
+                                                {q.altB}
+                                            </Typography>
+                                            <Divider />
+                                            <Typography variant='p'>
+                                                {q.altC}
+                                            </Typography>
+                                            <Divider />
 
-                                    </Stack>
+                                        </Stack>
 
-                                    {/* Answer */}
+                                        {/* Answer */}
 
-                                    <FormControl component="fieldset" error={true}>
-                                        <RadioGroup
-                                            aria-label="select correct answer"
-                                            name="answer"
-                                            defaultChecked={false}
+                                        <FormControl component="fieldset" error={true}>
+                                            <RadioGroup
+                                                aria-label="select correct answer"
+                                                name="answer"
+                                                defaultChecked={false}
 
-                                            onChange={e => handleUserAnswer(q.id, e)}
-                                            sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
+                                                onChange={e => handleUserAnswer(q.id, e)}
+                                                sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
 
-                                            <FormControlLabel value="A" control={<Radio
-                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                                label="A" />
+                                                <FormControlLabel value="A" control={<Radio
+                                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                    label="A" />
 
-                                            <FormControlLabel value="B" control={<Radio
-                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                                label="B" />
+                                                <FormControlLabel value="B" control={<Radio
+                                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                    label="B" />
 
-                                            <FormControlLabel value="C" control={<Radio
-                                                sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                                label="C" />
+                                                <FormControlLabel value="C" control={<Radio
+                                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                                    label="C" />
 
-                                        </RadioGroup>
-                                    </FormControl>
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </Box>
+
                                 </Box>
 
-                            </Box>
+                            )
+                        })
+                        :
+                        <>
+                            <Typography variant='h2'>
+                                Results
+                            </Typography>
 
-                        )
-                    })
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Questions</TableCell>
+                                            <TableCell align="right">Right Answer</TableCell>
+                                            <TableCell align="right">Your Answer</TableCell>
+
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+
+                                        {qArr.map((row) => (
+                                            <TableRow
+                                                key={row.id}
+                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                            >
+                                                <TableCell component="th" scope="row">
+                                                    {row.q}
+                                                </TableCell>
+                                                <TableCell align="right">{row.answer}</TableCell>
+                                                <TableCell sx={{ color: getCorrectAnswer(row.id).correct ? "black" : "red" }} align="right">{getCorrectAnswer(row.id).a}</TableCell>
+
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                            <Paper elevation={0} sx={{ mt: 3, p: 3, pl: 0 }}>
+
+
+                                <Typography variant='h6' >
+                                    <LightbulbIcon />   {` \u00A0 You got ${getResults().length} answer right out of ${qArr.length}`}
+
+                                </Typography>
+                            </Paper>
+                        </>
+
                 }
+
+
+
+
 
 
 
@@ -488,10 +511,18 @@ const QuizArena = () => {
                         <Add />
                     </Fab> */}
 
+                    <Fab aria-label="Try again" variant='extended' onClick={handleTryAgain}
+                    // sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
+                    >
+                        <Typography>Try Again</Typography>
+                    </Fab>
+
                     <Fab aria-label={!started ? "Next" : "Finish"} variant='extended' onClick={handelFinish}
                     // sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
                     >
-                        {!started ? "Next" : "Finish"}
+                        <Typography>
+                            {!started ? "Next" : "Finish"}
+                        </Typography>
                     </Fab>
                 </Stack>
 
