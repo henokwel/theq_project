@@ -26,3 +26,7 @@ a {
 .MuiCardContent-root{
 height: 100%;
 }
+
+#breadcrum-dashbord-a{
+  cursor: pointer;
+}

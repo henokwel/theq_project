@@ -291,26 +291,19 @@ const QuizArena = () => {
 
                 <div role="presentation" onClick={handleBreadCrumb} style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Breadcrumbs aria-label="breadcrumb">
-                        {/* <NextLink href="" passHref> */}
-
-                        <M_Link underline="hover" color="inherit" >
+                        <M_Link underline="hover" color="inherit" id="breadcrum-dashbord-a">
                             Dashbord
                         </M_Link>
-                        {/* </NextLink> */}
 
                         <Typography color="text.primary">Quiz Builder</Typography>
-
                     </Breadcrumbs>
                 </div>
-
 
 
                 {/* Quiz Toggle*/}
 
 
                 <Box sx={{ m: 2, visibility: !hideQ_Arena ? "visible" : "hidden" }}>
-
-
 
                     <ToggleButtonGroup
                         value={currentQ}
@@ -355,11 +348,7 @@ const QuizArena = () => {
 
 
 
-                {/* // ===== Quiz Form  ========= // */}
-
-                <Button variant="outlined" onClick={handleClick}>
-                    Open success snackbar
-                </Button>
+                {/* // ===== Quiz Arean  ========= // */}
 
                 {
 
@@ -372,34 +361,9 @@ const QuizArena = () => {
 
                                     {/* Question Input */}
                                     <div>
-                                        {/* <TextField
-                                        id="standard-multiline-flexible"
-                                        name="q_"
-                                        value={q.q}
-                                        onChange={(e) => handleInputChange(index, e)}
-                                        placeholder="Enter your question"
-                                        variant="standard"
-                                        disabled
-                                        multiline
-                                        fullWidth
-                                        error={q.id === inputError.id ? inputError.q : false}
-                                        maxRows={4}
-                                        InputProps={{
-                                            startAdornment: <InputAdornment position="start">Q :</InputAdornment>
-                                        }}
-                                    /> */}
-
-
                                         <Typography variant='h4' sx={{ mt: 5 }}>
                                             {q.q}
                                         </Typography>
-
-
-
-
-                                        {/* <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
-                                        <Delete />
-                                    </Fab> */}
                                     </div>
 
                                     <Box sx={{ display: "flex", marginTop: 5 }}>
@@ -499,18 +463,10 @@ const QuizArena = () => {
                                 </Typography>
                             </Paper>
                         </>
-
                 }
 
 
-
-
-
-
-
                 {/* Action buttons for Add & Finish */}
-
-
 
                 < Stack sx={{ marginTop: 6, height: 50 }} direction="row" spacing={4} justifyContent="flex-end" >
                     {/* <Fab color="primary" aria-label="add" onClick={handleAddFields} sx={{ visibility: currentQ === "title" ? "hidden" : "visible" }}>
