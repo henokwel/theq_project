@@ -569,7 +569,7 @@ const Quizbuilder = () => {
 
                 {/* Action buttons for Add & Finish */}
 
-                < Stack sx={{ marginTop: 6 }} direction="row" spacing={4} justifyContent="space-between" >
+                < Stack sx={{ marginTop: 6 }} direction="row-reverse" spacing={4} justifyContent="space-between" >
                     <Fab color="primary" aria-label="add" onClick={handleAddFields} sx={{ visibility: currentQ === "title" ? "hidden" : "visible" }}>
                         <Add />
                     </Fab>

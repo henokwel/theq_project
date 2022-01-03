@@ -36,6 +36,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import { breakpoints } from '@mui/system'
 const uniqid = require("uniqid");
 
 const QuizArena = () => {
@@ -115,6 +116,10 @@ const QuizArena = () => {
 
 
 
+
+
+    // save data to local 
+    // then fetch it if cache is d
 
 
     useEffect(() => {
@@ -213,34 +218,48 @@ const QuizArena = () => {
     const [hideQ_Arena, setHideQ_Arena] = useState(false)
 
 
-    const handelFinish = async () => {
+    // const handelFinish = async () => {
+    //     // hide Quiz arena => animation, celebration
+
+    //     setHideQ_Arena(true)
+    //     // calculate answers
+    //     // display Results 
+    // }
 
 
 
-        // hide Quiz arena => animation, celebration
+    // const handleTryAgain = async () => {
 
-        setHideQ_Arena(true)
+    //     // reset answer 
 
-        console.log(getResults());
+    //     setUserAnswer([])
+    //     handleAlignment(null, qArr[0].id)
+    //     setHideQ_Arena(false)
+    // }
 
 
 
-        // calculate answers
-        // display Results 
+    const quizArenaBtn_handler = async (type) => {
+
+
+
+        switch (type) {
+            case "finish": {
+                setHideQ_Arena(true)
+            }
+                break;
+            case "again": {
+                setUserAnswer([])
+                handleAlignment(null, qArr[0].id)
+                setHideQ_Arena(false)
+            }
+
+                break;
+
+            default:
+                break;
+        }
     }
-
-
-    const handleTryAgain = async () => {
-
-        // reset answer 
-
-        setHideQ_Arena(false)
-
-
-
-    }
-
-
 
 
 
@@ -259,7 +278,7 @@ const QuizArena = () => {
         // loop user answer and see if answer match with qArr
 
 
-
+        if (qArr.length === 0) return
 
         const res = qArr.map(item => {
 
@@ -280,6 +299,9 @@ const QuizArena = () => {
         return res.filter(item => item !== null)
 
     }
+
+
+
 
     return (
         <>
@@ -506,24 +528,28 @@ const QuizArena = () => {
 
                 {/* Action buttons for Add & Finish */}
 
+
+
                 < Stack sx={{ marginTop: 6, height: 50 }} direction="row" spacing={4} justifyContent="flex-end" >
                     {/* <Fab color="primary" aria-label="add" onClick={handleAddFields} sx={{ visibility: currentQ === "title" ? "hidden" : "visible" }}>
                         <Add />
                     </Fab> */}
 
-                    <Fab aria-label="Try again" variant='extended' onClick={handleTryAgain}
-                    // sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
+                    <Fab aria-label="Try again" variant='extended' onClick={() => quizArenaBtn_handler("again")}
+                        sx={{ visibility: !hideQ_Arena ? "hidden" : "visible" }}
                     >
                         <Typography>Try Again</Typography>
                     </Fab>
 
-                    <Fab aria-label={!started ? "Next" : "Finish"} variant='extended' onClick={handelFinish}
-                    // sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
+                    <Fab aria-label={!started ? "Next" : "Finish"} variant='extended' onClick={() => quizArenaBtn_handler("finish")}
+                        sx={{ visibility: hideQ_Arena ? "hidden" : "visible" }}
                     >
                         <Typography>
-                            {!started ? "Next" : "Finish"}
+                            Finish
                         </Typography>
                     </Fab>
+
+
                 </Stack>
 
 
