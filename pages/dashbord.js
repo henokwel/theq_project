@@ -102,6 +102,7 @@ function Dashboard() {
                             edge="start"
                             color="inherit"
                             aria-label="open drawer"
+                            
                             onClick={toggleDrawer}
                             sx={{
                                 marginRight: '36px',
@@ -130,8 +131,9 @@ function Dashboard() {
                             justifyContent: 'flex-end',
                             px: [1],
                         }}
+                        
                     >
-                        <IconButton onClick={toggleDrawer}>
+                        <IconButton onClick={toggleDrawer} >
                             <ChevronLeftIcon />
                         </IconButton>
                     </Toolbar>

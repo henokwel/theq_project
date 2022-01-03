@@ -273,7 +273,7 @@ const Quizbuilder = () => {
                 // if no error, remove the last obj
 
                 // Filter the last Empty Quiz out
-                const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
+                // const finishedQuizz_arr = qArr.filter(item => item.id !== currentQ)
 
                 // if (qInfo.title === "") {
                 //     qInfo.title = `Quiz _${qInfo.id}`
@@ -283,7 +283,8 @@ const Quizbuilder = () => {
                     type: "add_quiz",
                     payload: {
                         ...qInfo,
-                        quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
+                        quiz: qArr
+                        //  quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
                     }
                 })
 
@@ -416,8 +417,12 @@ const Quizbuilder = () => {
                                     type="date"
                                     name='deadline'
                                     onChange={(e) => handleIntroInputChange(e)}
-                                    value={qInfo.deadline}
-                                    defaultValue={`${new Date().toISOString().substring(0, 10).toString()}`}
+                                    value={qInfo.deadline === "" ?
+                                        new Date().toISOString().substring(0, 10).toString()
+                                        :
+                                        qInfo.deadline
+                                    }
+                                    // defaultValue={`${new Date().toISOString().substring(0, 10).toString()}`}
                                     sx={{ width: 220, mt: 4 }}
                                     InputLabelProps={{
                                         shrink: true,
@@ -569,7 +574,7 @@ const Quizbuilder = () => {
                         <Add />
                     </Fab>
 
-                    <Fab aria-label="add" variant='extended' onClick={handelFinish}
+                    <Fab aria-label={!started ? "Next" : "Finish"} variant='extended' onClick={handelFinish}
                         sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
                     >
                         {!started ? "Next" : "Finish"}
