@@ -8,4 +8,21 @@ const QuizArena = () => {
     )
 }
 
+
+
+// => For later use
+
+// export const getServerSideProps = async (context) => {
+//     const res = await fetch(
+//         `https://domain.com/quizarena/${context.params.id}`
+//     );
+
+//     const quizs = await res.json();
+//     return {
+//         props: {
+//             quizs,
+//         },
+//     };
+// };
+
 export default QuizArena

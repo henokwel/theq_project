@@ -241,6 +241,21 @@ function Dashboard() {
     );
 }
 
+
+// => For later use
+// export const getStaticProps = async () => {
+//     const res = await fetch(
+//       `https://domain.com/`
+//     );
+//     const quizs = await res.json();
+//     return {
+//       props: {
+//         quizs,
+//       },
+//     };
+//   };
+
+
 export default Dashboard;
 
 
