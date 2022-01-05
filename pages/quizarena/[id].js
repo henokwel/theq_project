@@ -82,12 +82,12 @@ const QuizArena = () => {
     // Handle Toggle of  available quiz questions
 
     const handleAlignment = (event, newAlignment) => {
-        console.log("new", newAlignment);
-        console.log("current", currentQ);
+        // console.log("new", newAlignment);
+        // console.log("current", currentQ);
         if (newAlignment === null) return
 
         setCurrentQ(newAlignment)
-        console.log(qArr);
+        // console.log(qArr);
         // setAlignment(newAlignment);
     };
 
@@ -173,8 +173,8 @@ const QuizArena = () => {
                 return setUserAnswer([...values, { id: index, answer: target.value }])
             } else {
 
-                console.log(_quizId.answer)
-                console.log("value exist");
+                // console.log(_quizId.answer)
+                // console.log("value exist");
                 _quizId.answer = target.value
 
                 return setUserAnswer(values)
@@ -183,7 +183,7 @@ const QuizArena = () => {
 
     };
 
-    console.log(userAnswer);
+    // console.log(userAnswer);
 
 
     // ================= Quiz FInish handler ==================== //

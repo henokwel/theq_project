@@ -25,6 +25,7 @@ import LinearProgressWithLabel from '../Components/ProgressWithLabel';
 import { Card, CardActionArea, CardContent } from '@mui/material';
 import { QuizStateContext } from '../src/context';
 import Link from 'next/link';
+import QuizCard from '../Components/QuizCard';
 
 
 
@@ -102,7 +103,7 @@ function Dashboard() {
                             edge="start"
                             color="inherit"
                             aria-label="open drawer"
-                            
+
                             onClick={toggleDrawer}
                             sx={{
                                 marginRight: '36px',
@@ -131,7 +132,7 @@ function Dashboard() {
                             justifyContent: 'flex-end',
                             px: [1],
                         }}
-                        
+
                     >
                         <IconButton onClick={toggleDrawer} >
                             <ChevronLeftIcon />
@@ -203,34 +204,11 @@ function Dashboard() {
                         >
 
                             {
-                                _quizState.length === 0 ? <h1 style={{ mt: 4, }}>Ops! Create Quiz</h1> :
+                                _quizState.length === 0 ?
+                                    <h1 style={{ mt: 4, }}> Create Quiz  <ConstructionIcon /></h1>
+                                    :
                                     _quizState.map((item, index) => {
-                                        console.log(item);
-                                        const { title, desc, deadline, id } = item
-                                        return (
-                                            <Card key={index} sx={{ width: 250, minHeight: 241, m: 2 }}>
-                                                <CardActionArea sx={{ minHeight: 241 }} >
-                                                    <Link href={`/quizarena/${id}`} passHref >
-                                                        <CardContent>
-                                                            <Typography gutterBottom variant="h4" component="div">
-                                                                {!title ? "Quiz Title" : title}
-                                                            </Typography>
-                                                            <Typography color="text.secondary" component="p" variant="p" sx={{ mb: 8 }} >
-                                                                {desc ? desc : "Description of the quiz, with few words"}
-                                                            </Typography>
-
-                                                            <Typography color="text.secondary"  >
-                                                                {`End: ${deadline ? deadline : "X Date"}`}
-                                                            </Typography>
-                                                            <Paper sx={{ p: 1, paddingLeft: 0 }} elevation={0}>
-                                                                <LinearProgressWithLabel value={20} />
-                                                            </Paper>
-                                                        </CardContent>
-                                                    </Link>
-                                                </CardActionArea>
-                                            </Card>
-
-                                        )
+                                        return <QuizCard key={index} {...item} index={index} />
                                     })
                             }
 
