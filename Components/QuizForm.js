@@ -10,7 +10,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import Stack from '@mui/material/Stack'
 import Fab from '@mui/material/Fab'
 
-import { Add, Delete, Title } from '@mui/icons-material';
+import {  Delete } from '@mui/icons-material';
 
 const QuizForm = ({ q, index, inputError, currentQ, qArr, handleInputChange, handleRemoveFields }) => {
     return (
@@ -18,6 +18,7 @@ const QuizForm = ({ q, index, inputError, currentQ, qArr, handleInputChange, han
 
             {/* Question Input */}
             <div style={{ display: "flex" }}>
+
                 <TextField
                     id="outlined-multiline-flexible"
                     name="q_"
@@ -33,14 +34,10 @@ const QuizForm = ({ q, index, inputError, currentQ, qArr, handleInputChange, han
                     }}
                 />
 
-                {/* <ToggleButton sx={bgcolor} value="left" aria-label="left aligned">
-                <h3 style={{ margin: 0}}>X</h3>
-            </ToggleButton> */}
-
-
                 <Fab sx={{ bgcolor: "#f77", display: qArr.length === 1 ? "none" : "inline" }} variant='extended' aria-label="add" onClick={() => handleRemoveFields(index)} >
                     <Delete />
                 </Fab>
+
             </div>
 
             <Box sx={{ display: "flex", marginTop: 5 }}>

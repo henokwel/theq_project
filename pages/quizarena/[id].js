@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import {
     ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography, Divider
 } from '@mui/material'
@@ -8,40 +8,34 @@ import {
 import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
-
-
-import Radio from '@mui/material/Radio'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import RadioGroup from '@mui/material/RadioGroup'
 import Stack from '@mui/material/Stack'
 import Fab from '@mui/material/Fab'
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-
-import DialogTitle from '@mui/material/DialogTitle';
 
 import { useRouter } from 'next/router'
 
-
 import { QuizStateContext, QuizUpdateContext } from '../../src/context'
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import LightbulbIcon from '@mui/icons-material/Lightbulb';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import QuizResults from '../../Components/QuizResults'
 import { DialogPrompt } from '../../Components/DialogPrompt'
-const QuizArena = () => {
 
+
+async function fetchQuizData(res, handleAlignment, setQArr) {
+
+    // const res = await useContext(QuizStateContext)
+
+    const filterQuiz = await res.filter(item => item.id === id)[0]
+    console.log(filterQuiz.quiz);
+
+
+    handleAlignment(null, filterQuiz.quiz[0].id)
+
+    setQArr(filterQuiz.quiz)
+
+}
+
+const QuizArena = () => {
 
 
     const [hideQ_Arena, setHideQ_Arena] = useState(false)
@@ -95,27 +89,39 @@ const QuizArena = () => {
 
 
 
-
+    const onLoad = useRef(0)
 
     // save data to local 
     // then fetch it if cache is d
 
 
     useEffect(() => {
-        (async () => {
-
-            const filterQuiz = await res.filter(item => item.id === id)[0]
-            console.log(filterQuiz.quiz);
+        const filterQuiz = res.filter(item => item.id === id)[0]
+        console.log(filterQuiz.quiz);
 
 
-            handleAlignment(null, filterQuiz.quiz[0].id)
+        handleAlignment(null, filterQuiz.quiz[0].id)
 
-            setQArr(filterQuiz.quiz)
+        setQArr(filterQuiz.quiz)
 
-
-            /// Save data to Local, to avoid error
-        })()
     }, [])
+
+    // useEffect(() => {
+    //     (async () => {
+
+
+    //         const filterQuiz = await res.filter(item => item.id === id)[0]
+    //         console.log(filterQuiz.quiz);
+
+
+    //         handleAlignment(null, filterQuiz.quiz[0].id)
+
+    //         setQArr(filterQuiz.quiz)
+
+
+    //         /// Save data to Local, to avoid error
+    //     })()
+    // }, [])
 
 
 
@@ -363,66 +369,74 @@ const QuizArena = () => {
                         qArr.map((q, index) => {
 
                             return (
+                                <QuizArena
+                                    key={index}
+                                    q={q}
+                                    index={index}
+                                    handleUserAnswer={handleUserAnswer}
+                                    currentQ={currentQ}
+                                />
 
-                                <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
 
-                                    {/* Question Input */}
-                                    <div>
-                                        <Typography variant='h4' sx={{ mt: 5 }}>
-                                            {q.q}
-                                        </Typography>
-                                    </div>
+                                // <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
 
-                                    <Box sx={{ display: "flex", marginTop: 5 }}>
+                                //     {/* Question */}
+                                //     <div>
+                                //         <Typography variant='h4' sx={{ mt: 5 }}>
+                                //             {q.q}
+                                //         </Typography>
+                                //     </div>
 
-                                        {/* Multiple choice */}
+                                //     <Box sx={{ display: "flex", marginTop: 5 }}>
 
-                                        <Stack spacing={3} sx={{ minWidth: "40%" }}>
+                                //         {/* Multiple choice */}
 
-                                            <Typography variant='p' si>
-                                                {q.altA}
-                                            </Typography>
-                                            <Divider />
+                                //         <Stack spacing={3} sx={{ minWidth: "40%" }}>
 
-                                            <Typography variant='p'>
-                                                {q.altB}
-                                            </Typography>
-                                            <Divider />
-                                            <Typography variant='p'>
-                                                {q.altC}
-                                            </Typography>
-                                            <Divider />
+                                //             <Typography variant='p' si>
+                                //                 {q.altA}
+                                //             </Typography>
+                                //             <Divider />
 
-                                        </Stack>
+                                //             <Typography variant='p'>
+                                //                 {q.altB}
+                                //             </Typography>
+                                //             <Divider />
+                                //             <Typography variant='p'>
+                                //                 {q.altC}
+                                //             </Typography>
+                                //             <Divider />
 
-                                        {/* Answer */}
+                                //         </Stack>
 
-                                        <FormControl component="fieldset" error={true}>
-                                            <RadioGroup
-                                                aria-label="select correct answer"
-                                                name="answer"
-                                                defaultChecked={false}
+                                //         {/* Answer */}
 
-                                                onChange={e => handleUserAnswer(q.id, e)}
-                                                sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
+                                //         <FormControl component="fieldset" error={true}>
+                                //             <RadioGroup
+                                //                 aria-label="select correct answer"
+                                //                 name="answer"
+                                //                 defaultChecked={false}
 
-                                                <FormControlLabel value="A" control={<Radio
-                                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                                    label="A" />
+                                //                 onChange={e => handleUserAnswer(q.id, e)}
+                                //                 sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
 
-                                                <FormControlLabel value="B" control={<Radio
-                                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                                    label="B" />
+                                //                 <FormControlLabel value="A" control={<Radio
+                                //                     sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                //                     label="A" />
 
-                                                <FormControlLabel value="C" control={<Radio
-                                                    sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                                    label="C" />
+                                //                 <FormControlLabel value="B" control={<Radio
+                                //                     sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                //                     label="B" />
 
-                                            </RadioGroup>
-                                        </FormControl>
-                                    </Box>
+                                //                 <FormControlLabel value="C" control={<Radio
+                                //                     sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
+                                //                     label="C" />
 
-                                </Box>
+                                //             </RadioGroup>
+                                //         </FormControl>
+                                //     </Box>
+
+                                // </Box>
 
                             )
                         })
