@@ -295,7 +295,7 @@ const QuizArena = () => {
                             Dashbord
                         </M_Link>
 
-                        <Typography color="text.primary">Quiz Builder</Typography>
+                        <Typography color="text.primary">Quiz Arena</Typography>
                     </Breadcrumbs>
                 </div>
 
