@@ -39,6 +39,7 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import QuizResults from '../../Components/QuizResults'
+import { DialogPrompt } from '../../Components/DialogPrompt'
 const QuizArena = () => {
 
 
@@ -327,7 +328,12 @@ const QuizArena = () => {
 
 
                 {/* Alert before exit without save */}
-                <div>
+                <DialogPrompt
+                    openDialogPrompt={openDialogPrompt}
+                    handleDialogPrompt={handleDialogPrompt}
+
+                />
+                {/* <div>
                     <Dialog
                         open={openDialogPrompt}
                         onClose={(e) => handleDialogPrompt(e, "stay")}
@@ -345,7 +351,7 @@ const QuizArena = () => {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                </div>
+                </div> */}
 
 
 

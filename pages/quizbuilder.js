@@ -31,6 +31,7 @@ import NextLink from 'next/link';
 import { QuizUpdateContext } from '../src/context';
 import QuizForm from '../Components/QuizForm'
 import IntroForm from '../Components/IntroForm'
+import { DialogPrompt } from '../Components/DialogPrompt'
 
 const uniqid = require("uniqid");
 
@@ -351,27 +352,12 @@ const Quizbuilder = () => {
                 {/* Alert before exit without save */}
                 <div>
 
-                    <Dialog
-                        open={openDialogPrompt}
-                        onClose={(e) => handleDialogPrompt(e, "stay")}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">
-                            {" If you leave now, your quiz will not be saved!"}
-                        </DialogTitle>
-                        {/* <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                                If you leave now, your quiz will not be saved!
-                            </DialogContentText>
-                        </DialogContent> */}
-                        <DialogActions>
-                            <Button onClick={(e) => handleDialogPrompt(e, "stay")}>Stay</Button>
-                            <Button onClick={(e) => handleDialogPrompt(e, "leave")} autoFocus>
-                                Leave
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
+                    <DialogPrompt
+                        openDialogPrompt={openDialogPrompt}
+                        handleDialogPrompt={handleDialogPrompt}
+
+                    />
+
                 </div>
 
 
