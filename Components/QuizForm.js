@@ -12,7 +12,7 @@ import Fab from '@mui/material/Fab'
 
 import { Add, Delete, Title } from '@mui/icons-material';
 
-const QuizForm = ({ q, index, inputError, currentQ, qArr, handleInputChange }) => {
+const QuizForm = ({ q, index, inputError, currentQ, qArr, handleInputChange, handleRemoveFields }) => {
     return (
         <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`} component="form" onSubmit={(e) => e.preventDefault()}  >
 

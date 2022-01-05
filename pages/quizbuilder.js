@@ -249,7 +249,6 @@ const Quizbuilder = () => {
     };
 
 
-
     const handelFinish = async () => {
 
         // Handle Started state ON start &  ? On Finish ?
@@ -297,14 +296,10 @@ const Quizbuilder = () => {
     }
 
 
-
-
-
     return (
         <>
             <CssBaseline />
             <Container maxWidth="md">
-
 
                 <div role="presentation" onClick={handleBreadCrumb} style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Breadcrumbs aria-label="breadcrumb">
@@ -319,7 +314,9 @@ const Quizbuilder = () => {
 
                     </Breadcrumbs>
                 </div>
+
                 {/* Quiz Array*/}
+
                 <Box sx={{ m: 2, }}>
 
                     <ToggleButtonGroup
@@ -331,40 +328,34 @@ const Quizbuilder = () => {
                         size="large"
                     >
                         <ToggleButton value="title" aria-label="left aligned"
-
-                            sx={{ bgcolor: infoError ? "red" : "inherit" }}
-                        >
-                            {/* <h3 style={{ margin: 0 }}> */}
+                            sx={{ bgcolor: infoError ? "red" : "inherit" }}>
                             <Title />
-                            {/* </h3> */}
                         </ToggleButton>
 
                         {
-                            qArr.map((item, index) => <ToggleButton sx={{ visibility: started ? "visible" : "hidden" }} key={item.id} value={item.id} aria-label="centered">
+                            qArr.map((item, index) => <ToggleButton
+                                sx={{ visibility: started ? "visible" : "hidden" }}
+                                key={item.id}
+                                value={item.id} aria-label="centered">
                                 <h3 style={{ margin: 0 }}>{`Q${index + 1}`}</h3>
-                            </ToggleButton>
-                            )
+                            </ToggleButton>)
                         }
                     </ToggleButtonGroup>
+
                 </Box>
 
 
                 {/* Alert before exit without save */}
                 <div>
-
                     <DialogPrompt
                         openDialogPrompt={openDialogPrompt}
                         handleDialogPrompt={handleDialogPrompt}
-
                     />
 
                 </div>
 
-
                 {/* // ===== Intro Form  ========= // */}
-
                 {
-
                     <IntroForm
                         qInfo={qInfo}
                         currentQ={currentQ}
@@ -373,15 +364,9 @@ const Quizbuilder = () => {
                     />
                 }
 
-
-
-
-
                 {/* // ===== Quiz Form  ========= // */}
-
                 {
                     qArr.map((q, index) => {
-
                         return (<QuizForm
                             key={index}
                             index={index}
@@ -389,15 +374,12 @@ const Quizbuilder = () => {
                             q={q}
                             qArr={qArr}
                             currentQ={currentQ}
+                            handleRemoveFields={handleRemoveFields}
                             handleInputChange={handleInputChange}
-
                         />
-
                         )
                     })
                 }
-
-
 
                 {/* Action buttons for Add & Finish */}
 
@@ -405,15 +387,12 @@ const Quizbuilder = () => {
                     <Fab color="primary" aria-label="add" onClick={handleAddFields} sx={{ visibility: currentQ === "title" ? "hidden" : "visible" }}>
                         <Add />
                     </Fab>
-
                     <Fab aria-label={!started ? "Next" : "Finish"} variant='extended' onClick={handelFinish}
                         sx={{ visibility: !started ? "visible" : currentQ === "title" && started ? "hidden" : "visible" }}
                     >
                         {!started ? "Next" : "Finish"}
                     </Fab>
                 </Stack>
-
-
             </Container>
         </>
     )
