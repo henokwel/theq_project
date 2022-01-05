@@ -38,6 +38,7 @@ import LightbulbIcon from '@mui/icons-material/Lightbulb';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import QuizResults from '../../Components/QuizResults'
 const QuizArena = () => {
 
 
@@ -420,49 +421,14 @@ const QuizArena = () => {
                             )
                         })
                         :
-                        <>
-                            <Typography variant='h2'>
-                                Results
-                            </Typography>
 
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Questions</TableCell>
-                                            <TableCell align="right">Right Answer</TableCell>
-                                            <TableCell align="right">Your Answer</TableCell>
+                        <QuizResults
+                            qArr={qArr}
+                            getCorrectAnswer={getCorrectAnswer}
+                            getResults={getResults}
 
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
+                        />
 
-                                        {qArr.map((row) => (
-                                            <TableRow
-                                                key={row.id}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell component="th" scope="row">
-                                                    {row.q}
-                                                </TableCell>
-                                                <TableCell align="right">{row.answer}</TableCell>
-                                                <TableCell sx={{ color: getCorrectAnswer(row.id).correct ? "black" : "red" }} align="right">{getCorrectAnswer(row.id).a}</TableCell>
-
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-
-                            <Paper elevation={0} sx={{ mt: 3, p: 3, pl: 0 }}>
-
-
-                                <Typography variant='h6' >
-                                    <LightbulbIcon />   {` \u00A0 You got ${getResults().length} answer right out of ${qArr.length}`}
-
-                                </Typography>
-                            </Paper>
-                        </>
                 }
 
 
