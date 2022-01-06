@@ -87,7 +87,7 @@ function Dashboard() {
         setOpen(!open);
     };
 
-
+console.log("Dashbord",_quizState);
 
     return (
         <ThemeProvider theme={mdTheme}>

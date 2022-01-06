@@ -280,12 +280,26 @@ const QuizArena = () => {
                 {
                     !hideQ_Arena ?
 
-                        <QuizArenaList
 
-                            inputError={inputError}
-                            handleUserAnswer={handleUserAnswer}
-                            currentQ={currentQ}
-                        />
+                        qArr.map((q, index) => {
+                            return (
+                                <QuizArenaCard
+                                    key={index}
+                                    q={q}
+                                    index={index}
+                                    // {...props}
+                                    inputError={inputError}
+                                    handleUserAnswer={handleUserAnswer}
+                                    currentQ={currentQ}
+                                />
+                            )
+                        })
+                        // <QuizArenaList
+
+                        //     inputError={inputError}
+                        //     handleUserAnswer={handleUserAnswer}
+                        //     currentQ={currentQ}
+                        // />
 
                         :
 

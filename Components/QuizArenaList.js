@@ -4,28 +4,24 @@ import QuizArenaCard from './QuizArenaCard';
 
 const QuizArenaList = (props) => {
 
-
     const _quizState = useContext(QuizStateContext)
-    console.log("_quizState", _quizState);
+    const _quizArray = _quizState.quiz
 
     return (
         <>
             {
-                _quizState.map((q, index) => {
+                _quizArray  ? <p>Hello worl</p>:
+                _quizArray.map((q, index) => {
                     return (
                         <QuizArenaCard
                             key={index}
                             q={q}
                             index={index}
                             {...props}
-                        // inputError={inputError}
-                        // handleUserAnswer={handleUserAnswer}
-                        // currentQ={currentQ}
                         />
                     )
                 })
             }
-
         </>
     )
 }
