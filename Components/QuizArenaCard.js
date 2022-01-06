@@ -4,7 +4,9 @@ import { Box, Typography, Stack, Divider, FormControl, RadioGroup, FormControlLa
 
 
 
-const QuizArena = ({ q, handleUserAnswer, currentQ, index }) => {
+const QuizArenaCard = ({ q, handleUserAnswer, currentQ, index, inputError }) => {
+
+    console.log(handleUserAnswer);
     return (
         <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
 
@@ -68,4 +70,4 @@ const QuizArena = ({ q, handleUserAnswer, currentQ, index }) => {
     )
 }
 
-export default QuizArena
+export default QuizArenaCard

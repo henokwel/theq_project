@@ -19,6 +19,8 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import QuizResults from '../../Components/QuizResults'
 import { DialogPrompt } from '../../Components/DialogPrompt'
+import QuizArenaCard from '../../Components/QuizArenaCard'
+import QuizArenaList from '../../Components/QuizArenaList'
 
 
 async function fetchQuizData(res, handleAlignment, setQArr) {
@@ -39,18 +41,8 @@ const QuizArena = () => {
 
 
     const [hideQ_Arena, setHideQ_Arena] = useState(false)
-
     const [currentQ, setCurrentQ] = useState("title") // Toggle whick quiz Question you are working on
     const [openDialogPrompt, setDialogPrompt] = React.useState(false); // Toggle Dialog propmt, when pressed breadcrum
-
-
-    const route = useRouter()
-    const { id } = route.query
-
-    const res = useContext(QuizStateContext)
-
-
-
     const [qArr, setQArr] = useState([]);
 
     const [userAnswer, setUserAnswer] = useState([])
@@ -63,12 +55,34 @@ const QuizArena = () => {
     });
 
 
+    const route = useRouter()
 
+    const { id } = route.query
 
+    const res = useContext(QuizStateContext)
 
     const router = useRouter()
 
     const _quizContextUpdate = useContext(QuizUpdateContext)
+
+
+
+
+    useEffect(() => {
+        (async () => {
+            const filterQuiz = await res.filter(item => item.id === id)[0]
+
+            if (filterQuiz) {
+
+                handleAlignment(null, filterQuiz.quiz[0].id)
+
+                _quizContextUpdate({ type: "POPULATE", payload: filterQuiz.quiz })
+                console.log("Populate");
+                setQArr(filterQuiz.quiz)
+            }
+            /// Save data to Local, to avoid error
+        })()
+    }, [])
 
 
 
@@ -78,57 +92,12 @@ const QuizArena = () => {
     // Handle Toggle of  available quiz questions
 
     const handleAlignment = (event, newAlignment) => {
-        // console.log("new", newAlignment);
-        // console.log("current", currentQ);
+
         if (newAlignment === null) return
 
         setCurrentQ(newAlignment)
-        // console.log(qArr);
-        // setAlignment(newAlignment);
+
     };
-
-
-
-    const onLoad = useRef(0)
-
-    // save data to local 
-    // then fetch it if cache is d
-
-
-    useEffect(() => {
-        const filterQuiz = res.filter(item => item.id === id)[0]
-        console.log(filterQuiz.quiz);
-
-
-        handleAlignment(null, filterQuiz.quiz[0].id)
-
-        setQArr(filterQuiz.quiz)
-
-    }, [])
-
-    // useEffect(() => {
-    //     (async () => {
-
-
-    //         const filterQuiz = await res.filter(item => item.id === id)[0]
-    //         console.log(filterQuiz.quiz);
-
-
-    //         handleAlignment(null, filterQuiz.quiz[0].id)
-
-    //         setQArr(filterQuiz.quiz)
-
-
-    //         /// Save data to Local, to avoid error
-    //     })()
-    // }, [])
-
-
-
-
-
-
-
 
 
 
@@ -151,12 +120,6 @@ const QuizArena = () => {
 
 
 
-
-
-
-
-
-
     // ================= QUIZ  Answer handler ==================== //
 
     const handleUserAnswer = (
@@ -166,44 +129,31 @@ const QuizArena = () => {
         const values = [...userAnswer];
         const target = event.target
 
-
-
         // handle Answer
-
 
         if (target.name === "answer") {
             // id and user answer
-
 
             const _quizId = values.filter(item => item.id === index)[0]
 
             if (!_quizId) {
                 return setUserAnswer([...values, { id: index, answer: target.value }])
+
             } else {
 
-                // console.log(_quizId.answer)
-                // console.log("value exist");
                 _quizId.answer = target.value
 
                 return setUserAnswer(values)
             }
         }
-
     };
 
-    // console.log(userAnswer);
 
 
     // ================= Quiz FInish handler ==================== //
 
 
-
-
-
     const quizArenaBtn_handler = async (type) => {
-
-
-
         switch (type) {
             case "finish": {
                 if (userAnswer.length !== qArr.length) {
@@ -219,9 +169,7 @@ const QuizArena = () => {
                 // handleAlignment(null, qArr[0].id)
                 setHideQ_Arena(false)
             }
-
                 break;
-
             default:
                 break;
         }
@@ -240,6 +188,8 @@ const QuizArena = () => {
         return { a: res.answer, correct: correctAnswer }
     }
 
+
+
     const getResults = () => {
         // loop user answer and see if answer match with qArr
 
@@ -247,23 +197,13 @@ const QuizArena = () => {
         if (qArr.length === 0) return
 
         const res = qArr.map(item => {
-
             const resz = userAnswer.filter(ans => ans.id === item.id)[0]
 
-
             if (resz.answer === item.answer) {
-
                 return item
-
             } else return null
-
-
-
-
         })
-
         return res.filter(item => item !== null)
-
     }
 
 
@@ -296,7 +236,6 @@ const QuizArena = () => {
             <CssBaseline />
             <Container maxWidth="md" >
 
-
                 <div role="presentation" onClick={handleBreadCrumb} style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <M_Link underline="hover" color="inherit" id="breadcrum-dashbord-a">
@@ -307,9 +246,7 @@ const QuizArena = () => {
                     </Breadcrumbs>
                 </div>
 
-
                 {/* Quiz Toggle*/}
-
 
                 <Box sx={{ m: 2, visibility: !hideQ_Arena ? "visible" : "hidden" }}>
 
@@ -331,115 +268,25 @@ const QuizArena = () => {
                 </Box>
 
 
-
-
                 {/* Alert before exit without save */}
                 <DialogPrompt
                     openDialogPrompt={openDialogPrompt}
                     handleDialogPrompt={handleDialogPrompt}
 
                 />
-                {/* <div>
-                    <Dialog
-                        open={openDialogPrompt}
-                        onClose={(e) => handleDialogPrompt(e, "stay")}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                    >
-                        <DialogTitle id="alert-dialog-title">
-                            {" If you leave now, your quiz will not be saved!"}
-                        </DialogTitle>
-
-                        <DialogActions>
-                            <Button onClick={(e) => handleDialogPrompt(e, "stay")}>Stay</Button>
-                            <Button onClick={(e) => handleDialogPrompt(e, "leave")} autoFocus>
-                                Leave
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div> */}
-
-
 
                 {/* // ===== Quiz Arean  ========= // */}
 
                 {
-
                     !hideQ_Arena ?
-                        qArr.map((q, index) => {
 
-                            return (
-                                <QuizArena
-                                    key={index}
-                                    q={q}
-                                    index={index}
-                                    handleUserAnswer={handleUserAnswer}
-                                    currentQ={currentQ}
-                                />
+                        <QuizArenaList
 
+                            inputError={inputError}
+                            handleUserAnswer={handleUserAnswer}
+                            currentQ={currentQ}
+                        />
 
-                                // <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
-
-                                //     {/* Question */}
-                                //     <div>
-                                //         <Typography variant='h4' sx={{ mt: 5 }}>
-                                //             {q.q}
-                                //         </Typography>
-                                //     </div>
-
-                                //     <Box sx={{ display: "flex", marginTop: 5 }}>
-
-                                //         {/* Multiple choice */}
-
-                                //         <Stack spacing={3} sx={{ minWidth: "40%" }}>
-
-                                //             <Typography variant='p' si>
-                                //                 {q.altA}
-                                //             </Typography>
-                                //             <Divider />
-
-                                //             <Typography variant='p'>
-                                //                 {q.altB}
-                                //             </Typography>
-                                //             <Divider />
-                                //             <Typography variant='p'>
-                                //                 {q.altC}
-                                //             </Typography>
-                                //             <Divider />
-
-                                //         </Stack>
-
-                                //         {/* Answer */}
-
-                                //         <FormControl component="fieldset" error={true}>
-                                //             <RadioGroup
-                                //                 aria-label="select correct answer"
-                                //                 name="answer"
-                                //                 defaultChecked={false}
-
-                                //                 onChange={e => handleUserAnswer(q.id, e)}
-                                //                 sx={{ display: "flex", minHeight: "100%", justifyContent: "space-around", marginLeft: 2 }}>
-
-                                //                 <FormControlLabel value="A" control={<Radio
-                                //                     sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                //                     label="A" />
-
-                                //                 <FormControlLabel value="B" control={<Radio
-                                //                     sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                //                     label="B" />
-
-                                //                 <FormControlLabel value="C" control={<Radio
-                                //                     sx={{ color: `${q.id === inputError.id ? inputError.answer ? 'red' : '' : ''}`, '&.Mui-checked': { color: "green" }, }} />}
-                                //                     label="C" />
-
-                                //             </RadioGroup>
-                                //         </FormControl>
-                                //     </Box>
-
-                                // </Box>
-
-                            )
-                        })
                         :
 
                         <QuizResults
@@ -455,9 +302,6 @@ const QuizArena = () => {
                 {/* Action buttons for Add & Finish */}
 
                 < Stack sx={{ marginTop: 6, height: 50 }} direction="row" spacing={4} justifyContent="flex-end" >
-                    {/* <Fab color="primary" aria-label="add" onClick={handleAddFields} sx={{ visibility: currentQ === "title" ? "hidden" : "visible" }}>
-                        <Add />
-                    </Fab> */}
 
                     <Fab aria-label="Try again" variant='extended' onClick={() => quizArenaBtn_handler("again")}
                         sx={{ visibility: !hideQ_Arena ? "hidden" : "visible" }}
@@ -472,8 +316,6 @@ const QuizArena = () => {
                             Finish
                         </Typography>
                     </Fab>
-
-
                 </Stack>
 
 
@@ -492,9 +334,6 @@ const QuizArena = () => {
         </>
     )
 }
-
-
-
 
 
 

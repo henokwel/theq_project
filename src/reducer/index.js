@@ -22,18 +22,22 @@ export const appReducer = (state, action) => {
 
         }
             break;
-        case "done": {
-
-            return state.map(item => {
-                if (item.id === action.payload) {
-                    return {
-                        ...item,
-                        done: !item.done
-                    }
-                }
-                return item
-            })
+        case "POPULATE": {
+            return action.payload
         }
+            break;
+        // case "done": {
+
+        //     return state.map(item => {
+        //         if (item.id === action.payload) {
+        //             return {
+        //                 ...item,
+        //                 done: !item.done
+        //             }
+        //         }
+        //         return item
+        //     })
+        // }
 
         default:
             {
