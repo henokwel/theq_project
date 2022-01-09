@@ -309,14 +309,12 @@ const QuizArena = () => {
                             getResults={getResults}
 
                         />
-
                 }
 
 
                 {/* Action buttons for Add & Finish */}
 
                 < Stack sx={{ marginTop: 6, height: 50 }} direction="row" spacing={4} justifyContent="flex-end" >
-
                     <Fab aria-label="Try again" variant='extended' onClick={() => quizArenaBtn_handler("again")}
                         sx={{ visibility: !hideQ_Arena ? "hidden" : "visible" }}
                     >
@@ -338,21 +336,16 @@ const QuizArena = () => {
                         <Typography>
                             PLEASE, ANSWER ALL THE QUESTIONS !
                         </Typography>
-
                     </Alert>
 
                 </Snackbar>
-
-
             </Container>
         </>
     )
 }
 
 
-
-
-// => For later use
+// => For later use or never !!
 
 // export const getServerSideProps = async (context) => {
 //     const res = await fetch(
