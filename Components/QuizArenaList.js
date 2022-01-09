@@ -26,4 +26,5 @@ const QuizArenaList = (props) => {
     )
 }
 
+
 export default QuizArenaList

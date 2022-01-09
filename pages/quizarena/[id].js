@@ -1,7 +1,7 @@
 
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
-    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography, Divider
+    ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography
 } from '@mui/material'
 
 
@@ -20,7 +20,7 @@ import MuiAlert from '@mui/material/Alert';
 import QuizResults from '../../Components/QuizResults'
 import { DialogPrompt } from '../../Components/DialogPrompt'
 import QuizArenaCard from '../../Components/QuizArenaCard'
-import QuizArenaList from '../../Components/QuizArenaList'
+// import QuizArenaList from '../../Components/QuizArenaList'
 
 
 async function fetchQuizData(res, handleAlignment, setQArr) {
@@ -205,7 +205,6 @@ const QuizArena = () => {
         })
         return res.filter(item => item !== null)
     }
-
 
 
 

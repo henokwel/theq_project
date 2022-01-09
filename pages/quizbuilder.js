@@ -70,8 +70,6 @@ const Quizbuilder = () => {
     });
 
 
-
-
     const [infoError, setInfoError] = useState(false); // Error for title input
 
     const router = useRouter()
@@ -116,13 +114,6 @@ const Quizbuilder = () => {
     }
 
 
-
-
-
-
-
-
-
     // ================= Intro Quiz Form handler ==================== //
 
     const handleIntroInputChange = (e) => {
@@ -143,8 +134,6 @@ const Quizbuilder = () => {
 
         setQInfo(values)
     }
-
-
 
 
 

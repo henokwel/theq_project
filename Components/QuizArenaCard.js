@@ -2,8 +2,6 @@ import React from 'react'
 import { Box, Typography, Stack, Divider, FormControl, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 
 
-
-
 const QuizArenaCard = ({ q, handleUserAnswer, currentQ, index, inputError }) => {
 
     console.log(handleUserAnswer);
