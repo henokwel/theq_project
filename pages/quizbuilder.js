@@ -77,26 +77,17 @@ const Quizbuilder = () => {
     const _quizContextUpdate = useContext(QuizUpdateContext)
 
 
-
     // ================= Navigation handler, Breadcrum & Questions Toggler ==================== //
-
 
     // Handle Toggle of  available quiz questions
 
     const handleAlignment = (event, newAlignment) => {
-        // console.log("new", newAlignment);
-        // console.log("current", currentQ);
         if (newAlignment === null) return
-
         setCurrentQ(newAlignment)
-        // console.log(qArr);
-        // setAlignment(newAlignment);
     };
 
 
-
     const handleDialogPrompt = (e, reason) => {
-
         // User can Choose btn (Stay) 
         // Else if  user choose to leave,  redirect to Dashbord. 
 
@@ -118,9 +109,7 @@ const Quizbuilder = () => {
 
     const handleIntroInputChange = (e) => {
         const values = { ...qInfo }
-
         const target = e.target
-
 
         if (target.name === "title" && target.value !== " ") {
             values.title = target.value;
@@ -134,7 +123,6 @@ const Quizbuilder = () => {
 
         setQInfo(values)
     }
-
 
 
     // ================= QUIZ  Form handler ==================== //
@@ -197,8 +185,6 @@ const Quizbuilder = () => {
         }
 
         else {
-            // console.log("Last Else");
-
 
             // Get the current ID  
             // For toggle purposes
@@ -225,7 +211,6 @@ const Quizbuilder = () => {
     };
 
 
-
     const handleRemoveFields = (index) => {
         const values = [...qArr];
         values.splice(index, 1);
@@ -241,8 +226,6 @@ const Quizbuilder = () => {
     const handelFinish = async () => {
 
         // Handle Started state ON start &  ? On Finish ?
-
-
         if (qInfo.title === "") {
 
             return setInfoError(true)
