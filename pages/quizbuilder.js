@@ -67,8 +67,6 @@ const Quizbuilder = () => {
     });
 
 
-
-
     const [infoError, setInfoError] = useState(false); // Error for title input
 
     const router = useRouter()
@@ -88,14 +86,12 @@ const Quizbuilder = () => {
         if (newAlignment === null) return
 
         setCurrentQ(newAlignment)
-        console.log(qArr);
-        // setAlignment(newAlignment);
+      // setAlignment(newAlignment);
     };
 
 
 
     const handleDialogPrompt = (e, reason) => {
-
         // User can Choose btn (Stay) 
         // Else if  user choose to leave,  redirect to Dashbord. 
 
@@ -111,13 +107,6 @@ const Quizbuilder = () => {
         event.preventDefault();
         setDialogPrompt(true)
     }
-
-
-
-
-
-
-
 
 
     // ================= Intro Quiz Form handler ==================== //
@@ -140,8 +129,6 @@ const Quizbuilder = () => {
 
         setQInfo(values)
     }
-
-
 
 
 
