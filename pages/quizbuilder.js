@@ -2,14 +2,11 @@ import React, { useContext, useState } from 'react'
 import {
     ToggleButton, ToggleButtonGroup, Breadcrumbs, Link as M_Link, Typography, InputLabel, Select, MenuItem, FormHelperText
 } from '@mui/material'
-
-
 import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
-
 import Radio from '@mui/material/Radio'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -22,11 +19,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
-import { useRouter } from 'next/router'
-
-
 import { Add, Delete, Title } from '@mui/icons-material';
+import { useRouter } from 'next/router'
 import NextLink from 'next/link';
 import { QuizUpdateContext } from '../src/context';
 
@@ -86,7 +80,7 @@ const Quizbuilder = () => {
         if (newAlignment === null) return
 
         setCurrentQ(newAlignment)
-      // setAlignment(newAlignment);
+        // setAlignment(newAlignment);
     };
 
 
@@ -129,8 +123,6 @@ const Quizbuilder = () => {
 
         setQInfo(values)
     }
-
-
 
     // ================= QUIZ  Form handler ==================== //
 
@@ -249,13 +241,11 @@ const Quizbuilder = () => {
             setInfoError(false) // title is given
             handleAlignment(null, qArr[0].id)
         } else {
-
             // !!! This is a hack. I need to find a better way of doing this part
 
             const checkFinish = handleAddFields()
 
             if (checkFinish) {
-
                 // run Add Function and check for error. 
                 // if no error, remove the last obj
 
@@ -288,7 +278,6 @@ const Quizbuilder = () => {
         <>
             <CssBaseline />
             <Container maxWidth="md">
-
 
                 <div role="presentation" onClick={handleBreadCrumb} style={{ display: "flex", justifyContent: "flex-end" }}>
                     <Breadcrumbs aria-label="breadcrumb">
@@ -438,29 +427,17 @@ const Quizbuilder = () => {
                                     <FormHelperText>Estimate participants </FormHelperText>
                                 </FormControl>
 
-
                             </div>
-
                         </Box>
-
                     </Box>
-
-
                 }
-
-
-
-
 
                 {/* // ===== Quiz Form  ========= // */}
 
                 {
                     qArr.map((q, index) => {
-
                         return (
-
                             <Box sx={{ m: 2, display: q.id === currentQ ? "block" : "none" }} key={`${q}~${index}`}  >
-
                                 {/* Question Input */}
                                 <div style={{ display: "flex" }}>
                                     <TextField
@@ -545,14 +522,10 @@ const Quizbuilder = () => {
                                         </RadioGroup>
                                     </FormControl>
                                 </Box>
-
                             </Box>
-
                         )
                     })
                 }
-
-
 
                 {/* Action buttons for Add & Finish */}
 
@@ -567,8 +540,7 @@ const Quizbuilder = () => {
                         {!started ? "Next" : "Finish"}
                     </Fab>
                 </Stack>
-
-
+                
             </Container>
         </>
     )
