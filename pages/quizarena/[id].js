@@ -44,7 +44,7 @@ const QuizArena = () => {
     const [currentQ, setCurrentQ] = useState("title") // Toggle whick quiz Question you are working on
     const [openDialogPrompt, setDialogPrompt] = React.useState(false); // Toggle Dialog propmt, when pressed breadcrum
     const [qArr, setQArr] = useState([]);
-
+    const [unfinished_error, setunfinished_error] = useState(false);
     const [userAnswer, setUserAnswer] = useState([])
 
     const [inputError, setInputError] = useState({
@@ -210,13 +210,11 @@ const QuizArena = () => {
 
     //==>>> Handle Snackbar Error
 
-
-    const Alert = React.forwardRef(function Alert(props, ref) {
-        return <MuiAlert elevation={6} ref={ref} variant="standard" {...props} />;
+     const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
 
 
-    const [unfinished_error, setunfinished_error] = useState(false);
 
     const handleClick = () => {
         setunfinished_error(true);
@@ -331,7 +329,7 @@ const QuizArena = () => {
 
 
                 <Snackbar open={unfinished_error} autoHideDuration={6000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity="warning" sx={{ width: '100%', color: "black" }}>
+                    <Alert onClose={handleClose} severity="error" sx={{ width: '100%', color: "white" }}>
                         <Typography>
                             PLEASE, ANSWER ALL THE QUESTIONS !
                         </Typography>

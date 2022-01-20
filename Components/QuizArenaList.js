@@ -5,6 +5,7 @@ import QuizArenaCard from './QuizArenaCard';
 const QuizArenaList = (props) => {
 
     const _quizState = useContext(QuizStateContext)
+    
     const _quizArray = _quizState.quiz
 
     return (
