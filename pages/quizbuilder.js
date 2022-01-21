@@ -104,7 +104,6 @@ const Quizbuilder = () => {
         setDialogPrompt(true)
     }
 
-
     // ================= Intro Quiz Form handler ==================== //
 
     const handleIntroInputChange = (e) => {
@@ -123,7 +122,6 @@ const Quizbuilder = () => {
 
         setQInfo(values)
     }
-
 
     // ================= QUIZ  Form handler ==================== //
 
@@ -152,7 +150,6 @@ const Quizbuilder = () => {
 
         setQArr(values);
     };
-
 
     // ================= Add & Remove & Finish  handler ==================== //
 
@@ -261,6 +258,9 @@ const Quizbuilder = () => {
                         //  quiz: qArr.length > 1 ? finishedQuizz_arr : qArr
                     }
                 })
+
+
+
 
                 router.push("/")
             }

@@ -23,7 +23,7 @@ export const appReducer = (state, action) => {
         }
             break;
         case "POPULATE": {
-            return action.payload
+            return state = action.payload
         }
             break;
         // case "done": {

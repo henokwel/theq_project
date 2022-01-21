@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -78,8 +78,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const mdTheme = createTheme();
 
+
 function Dashboard() {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [quizState, setquizState] = useState([]);
 
     const _quizState = useContext(QuizStateContext)
 
@@ -87,7 +89,31 @@ function Dashboard() {
         setOpen(!open);
     };
 
-console.log("Dashbord",_quizState);
+    // console.log("Dashbord", _quizState);
+
+
+
+    useEffect(() => {
+
+        console.log("Dashbord useEffect");
+        // check for local
+        const localData = localStorage.getItem('myQuizData')
+
+        if (localData === null) return
+        else {
+            const res = JSON.parse(localData)
+            setquizState(res)
+
+        }
+
+        setquizState(_quizState)
+
+        // check for context
+
+
+    }, []);
+
+
 
     return (
         <ThemeProvider theme={mdTheme}>
