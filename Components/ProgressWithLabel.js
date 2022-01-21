@@ -1,7 +1,6 @@
 import { Box, LinearProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-
 export default function LinearProgressWithLabel(props) {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

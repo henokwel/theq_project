@@ -3,11 +3,7 @@ import Link from 'next/link';
 import React from 'react'
 import LinearProgressWithLabel from './ProgressWithLabel';
 
-
-
 const QuizCard = ({ index, id, title, desc, deadline }) => {
-
-
     return (
         <Card key={index} sx={{ width: 250, minHeight: 241, m: 2 }}>
             <CardActionArea sx={{ minHeight: 241 }} >

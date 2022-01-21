@@ -1,8 +1,6 @@
 import React from 'react'
 import { MenuItem, FormControl, TextField, Box, Select, InputLabel, FormHelperText } from '@mui/material'
 
-
-
 const IntroForm = ({ handleIntroInputChange, qInfo , currentQ, infoError }) => {
     return (
         <>

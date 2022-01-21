@@ -21,11 +21,11 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/Layers';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import NextLink from 'next/link';
-import LinearProgressWithLabel from '../Components/ProgressWithLabel';
-import { Card, CardActionArea, CardContent } from '@mui/material';
 import { QuizStateContext } from '../src/context';
-import Link from 'next/link';
 import QuizCard from '../Components/QuizCard';
+// import LinearProgressWithLabel from '../Components/ProgressWithLabel';
+// import { Card, CardActionArea, CardContent } from '@mui/material';
+// import Link from 'next/link';
 
 
 

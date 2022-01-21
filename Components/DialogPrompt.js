@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Dialog, DialogTitle, DialogActions, Button } from '@mui/material'
 
 export const DialogPrompt = ({ openDialogPrompt, handleDialogPrompt }) => {
